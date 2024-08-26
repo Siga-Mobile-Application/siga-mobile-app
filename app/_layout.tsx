@@ -3,5 +3,5 @@ import "@/global.css";
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 
 export default function Layout() {
-    return <GluestackUIProvider mode="light"><Slot /></GluestackUIProvider>;
+    return <GluestackUIProvider><Slot /></GluestackUIProvider>;
 }
