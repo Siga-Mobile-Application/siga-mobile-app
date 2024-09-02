@@ -14,7 +14,7 @@ export default function StyledInput({ label, placeholder, onChangeText }: Styled
         <VStack space="xs" style={styles.container}>
             <Text className="text-typography-500 leading-1">{label}</Text>
             <Input style={[styles.input]}>
-                <InputField placeholder={placeholder} />
+                <InputField placeholder={placeholder} onChangeText={onChangeText} />
             </Input>
         </VStack>
     )

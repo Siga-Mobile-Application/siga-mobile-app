@@ -1,5 +1,7 @@
 import ProfileHeader from '@/components/profile-tab/header';
-import { StyleSheet, View } from 'react-native';
+import StyledButton from '@/components/styled-button';
+import { router } from 'expo-router';
+import { View } from 'react-native';
 
 export default function Profile() {
     const profilePicture = 'https:\\siga.cps.sp.gov.br/image//6GVG96KRA8BC7EFHED58NEH6HUZD6W.TMB.JPG';
@@ -14,28 +16,7 @@ export default function Profile() {
     return (
         <View className="h-full w-full">
             <ProfileHeader></ProfileHeader>
-            {/* <VStack className="h-full w-full bg-background-0">
-
-                <VStack className="h-full w-full">
-                    <HStack className="h-full w-full">
-
-                        <VStack className="w-full flex-1 justify-center items-center">
-
-                            <StyledAvatar name={profileInfo.nome} image={profilePicture} subTitle={profileInfo.curso} />
-
-                            <StyledButton color='#BF4647' text='Sair' onClick={() => { router.replace('/') }} />
-                        </VStack>
-                    </HStack>
-                </VStack>
-            </VStack> */}
+            <StyledButton color='#BF4647' text='Sair' onClick={() => { router.replace('/') }} />
         </View>
     );
 }
-
-const style = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-})
