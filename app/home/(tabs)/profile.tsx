@@ -1,9 +1,4 @@
-import StyledAvatar from '@/components/styled-avatar-icon';
-import StyledButton from '@/components/styled-button';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { Box } from '@/components/ui/box';
-import { Heading } from '@/components/ui/heading';
-import { router } from 'expo-router';
+import ProfileHeader from '@/components/profile-tab/header';
 import { StyleSheet, View } from 'react-native';
 
 export default function Profile() {
@@ -17,14 +12,22 @@ export default function Profile() {
     };
 
     return (
-        <View style={style.container}>
-            <Box style={{ alignItems: 'stretch', flex: 3, justifyContent: 'center' }}>
-                <StyledAvatar name={profileInfo.nome} image={profilePicture} subTitle={profileInfo.curso} />
-            </Box>
+        <View className="h-full w-full">
+            <ProfileHeader></ProfileHeader>
+            {/* <VStack className="h-full w-full bg-background-0">
 
-            <Box style={{ flex: 1 }}>
-                <StyledButton color='#BF4647' text='Sair' onClick={() => { router.replace('/') }} />
-            </Box>
+                <VStack className="h-full w-full">
+                    <HStack className="h-full w-full">
+
+                        <VStack className="w-full flex-1 justify-center items-center">
+
+                            <StyledAvatar name={profileInfo.nome} image={profilePicture} subTitle={profileInfo.curso} />
+
+                            <StyledButton color='#BF4647' text='Sair' onClick={() => { router.replace('/') }} />
+                        </VStack>
+                    </HStack>
+                </VStack>
+            </VStack> */}
         </View>
     );
 }
@@ -33,11 +36,6 @@ const style = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column'
+        alignItems: 'center'
     },
-
-    input: {
-        width: 300
-    }
 })

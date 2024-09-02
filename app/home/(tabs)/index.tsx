@@ -1,3 +1,4 @@
+import { Divider } from '@/components/ui/divider';
 import { Heading } from '@/components/ui/heading';
 import { Image, StyleSheet, View } from 'react-native';
 
@@ -17,8 +18,4 @@ const style = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'column'
     },
-
-    input: {
-        width: 300
-    }
 })
