@@ -15,7 +15,8 @@ export default function ForgotPass() {
             <StyledInput label='Registro Academico' placeholder='Insira seu registro academico' />
             <StyledInput label='email' placeholder='Insira seu endereço de email' />
 
-            <StyledButton text='Prosseguir' color='' onClick={() => {router.replace('user/login')}} />
+            <StyledButton text='Prosseguir' color='' onClick={() => {}} />
+            <StyledButton text='Voltar' color='red' onClick={() => {router.replace('auth/login')}} />
         </View>
     );
 }

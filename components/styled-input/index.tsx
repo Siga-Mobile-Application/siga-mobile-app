@@ -22,14 +22,12 @@ export default function StyledInput({ label, placeholder, onChangeText }: Styled
 
 const styles = StyleSheet.create({
     container: {
-        margin: 15,
+        margin: 5,
         width: '90%',
-        height: 40
     },
 
     input: {
         borderWidth: 1,
-        borderRadius: 6,
-        padding: 10,
+        borderRadius: 6
     },
 })
