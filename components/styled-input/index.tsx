@@ -6,15 +6,16 @@ import { Text } from "../ui/text";
 interface StyledInputProps {
     label?: string
     placeholder: string
+    type?: 'password' | 'text'
     onChangeText?: (text: string) => void
 }
 
-export default function StyledInput({ label, placeholder, onChangeText }: StyledInputProps) {
+export default function StyledInput({ label, placeholder, onChangeText, type }: StyledInputProps) {
     return (
         <VStack space="xs" style={styles.container}>
             <Text className="text-typography-500 leading-1">{label}</Text>
             <Input style={[styles.input]}>
-                <InputField placeholder={placeholder} onChangeText={onChangeText} />
+                <InputField type={type} placeholder={placeholder} onChangeText={onChangeText} />
             </Input>
         </VStack>
     )

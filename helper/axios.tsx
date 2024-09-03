@@ -1,9 +1,9 @@
 import axios from "axios";
 
 const api = axios.create({
-   baseURL: window.location.href.match('localhost') ? "http://localhost:3000" : ''
+   baseURL: "https://siga-mobile-app-backend.onrender.com"
 });
 
-api.defaults.withCredentials = true;
+// api.defaults.withCredentials = true;
 
 export default api;

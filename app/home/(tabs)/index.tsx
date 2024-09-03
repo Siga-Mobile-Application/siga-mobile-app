@@ -1,6 +1,5 @@
-import { Divider } from '@/components/ui/divider';
 import { Heading } from '@/components/ui/heading';
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 export default function Home() {
 
