@@ -11,21 +11,19 @@ import api from '@/helper/axios';
 export default function Login() {
     const [login, setLogin] = useState({ user: '', pass: '' });
     const [isLoading, setLoading] = useState(false);
-    const { signed } = useContext(AuthContext);
+    const { signIn, user } = useContext(AuthContext);
 
     async function handleLogin() {
         if (!login.user || !login.pass) return;
 
-        setLoading(true);
+        setLoading(true);       
 
-        await api.post('/data', login).then(res => {
+        signIn(login.user, login.pass).then(res => {
+            console.log('Bem-vindo: ', user?.name);
             router.replace('/home');
-            console.log(res.data);
         }).catch(e => {
-            console.log('Erro: ', e);
-        }).finally(() => {
-            setLoading(false);
-        });
+            console.log(e);
+        }).finally(() => setLoading(false));
     };
 
     return (
