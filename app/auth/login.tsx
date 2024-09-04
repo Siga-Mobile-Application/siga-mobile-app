@@ -10,18 +10,22 @@ import api from '@/helper/axios';
 
 export default function Login() {
     const [login, setLogin] = useState({ user: '', pass: '' });
+    const [isLoading, setLoading] = useState(false);
     const { signed } = useContext(AuthContext);
 
     async function handleLogin() {
         if (!login.user || !login.pass) return;
-                
+
+        setLoading(true);
+
         await api.post('/data', login).then(res => {
+            router.replace('/home');
             console.log(res.data);
         }).catch(e => {
             console.log('Erro: ', e);
+        }).finally(() => {
+            setLoading(false);
         });
-
-        // router.replace('/home');
     };
 
     return (
@@ -29,12 +33,13 @@ export default function Login() {
             <Image source={require('@/assets/logo/Logo.png')} alt="Logo Siga" />
             <Heading>Faça login em sua conta</Heading>
 
-            <StyledInput label='Login' type='text' placeholder='Insira seu login do SIGA' onChangeText={(value) => { setLogin({...login, user: value})}} />
-            <StyledInput label='Senha' type='password' placeholder='Insira sua senha' onChangeText={(value) => { setLogin({...login, pass: value}) }} />
+            <StyledInput label='Login' type='text' placeholder='Insira seu login do SIGA' onChangeText={(value) => { setLogin({ ...login, user: value }) }} />
+            <StyledInput label='Senha' type='password' placeholder='Insira sua senha' onChangeText={(value) => { setLogin({ ...login, pass: value }) }} />
 
             <StyledButton
                 text='Entrar'
-                onClick={handleLogin} />
+                onClick={handleLogin}
+                isLoading={isLoading} />
 
             <Link href='https://www.gluestack.io.com'>
                 <LinkText onPress={() => { router.replace('auth/forgotPass') }}>Esqueceu sua senha?</LinkText>
