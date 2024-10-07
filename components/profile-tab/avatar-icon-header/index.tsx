@@ -4,10 +4,11 @@ import { Heading } from "../../ui/heading";
 import { Text } from "../../ui/text";
 import { VStack } from "../../ui/vstack";
 import { Box } from "@/components/ui/box";
+import StyledText from "@/components/styled-text";
 
 interface AvatarProps {
     name: string,
-    subTitle?: string,
+    subTitle: string,
     image?: string
 }
 
@@ -18,8 +19,8 @@ export default function ProfileHeaderIcon({ name, subTitle, image }: AvatarProps
                 <AvatarImage source={{ uri: image }} />
             </Avatar>
             <Box className="items-center">
-                <Heading size="xl">{name}</Heading>
-                <Text size="lg">{subTitle}</Text>
+                <Heading size="2xl" className="text-black">{name}</Heading>
+                <StyledText text={subTitle} size="lg" fontWeight="bold" />
             </Box>
         </VStack>
     )

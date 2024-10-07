@@ -16,7 +16,7 @@ export default function Login() {
     async function handleLogin() {
         if (!login.user || !login.pass) return;
 
-        setLoading(true);       
+        setLoading(true);
 
         signIn(login.user, login.pass).then(res => {
             console.log('Bem-vindo: ', user?.name);
@@ -27,33 +27,39 @@ export default function Login() {
     };
 
     return (
-        <View style={style.container}>
+        <View style={styles.container}>
             <Image source={require('@/assets/logo/Logo.png')} alt="Logo Siga" />
             <Heading>Faça login em sua conta</Heading>
 
             <StyledInput label='Login' type='text' placeholder='Insira seu login do SIGA' onChangeText={(value) => { setLogin({ ...login, user: value }) }} />
             <StyledInput label='Senha' type='password' placeholder='Insira sua senha' onChangeText={(value) => { setLogin({ ...login, pass: value }) }} />
 
-            <StyledButton
-                text='Entrar'
-                onClick={handleLogin}
-                isLoading={isLoading} />
 
-            <Link href='https://www.gluestack.io.com'>
-                <LinkText onPress={() => { router.replace('auth/forgotPass') }}>Esqueceu sua senha?</LinkText>
-            </Link>
+            <View style={styles.buttonsContainer}>
+                <StyledButton
+                    text='Entrar'
+                    onClick={() => { router.replace('/home'); }}
+                    isLoading={isLoading} />
+
+                <Link href='https://www.gluestack.io.com'>
+                    <LinkText onPress={() => { router.replace('auth/forgotPass') }}>Esqueceu sua senha?</LinkText>
+                </Link>
+            </View>
+
         </View>
     );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column'
     },
-
+    buttonsContainer: {
+        marginTop: 20
+    },
     input: {
         width: 300
     }

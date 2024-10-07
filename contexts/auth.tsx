@@ -7,7 +7,7 @@ interface AuthProviderProps {
 
 interface AuthContextData {
     signed: boolean;
-    user: {name: string, email: string, picture: string} | null;
+    user: {ra: string, name: string, email: string, picture: string} | null;
     signIn(login: string, pass: string): Promise<void>;
     signOut(): void;
 }
@@ -15,7 +15,7 @@ interface AuthContextData {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [user, setUser] = useState<{name: string, email: string, picture: string} | null>(null);
+    const [user, setUser] = useState<{ra: string, name: string, email: string, picture: string} | null>(null);
 
     async function signIn(login: string, pass: string) {
         const credentials = { user: login, pass: pass };
