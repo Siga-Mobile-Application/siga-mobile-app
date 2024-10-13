@@ -1,10 +1,22 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Tabs } from 'expo-router';
 
 export default function Layout() {
   return (
     <>
-      <Tabs screenOptions={{ tabBarActiveTintColor: '#71A6E9', headerShown: false }}>
+      <Tabs screenOptions={{
+        tabBarInactiveTintColor: 'white',
+        tabBarActiveTintColor: '#97D3FA', 
+        headerShown: false,
+        tabBarBackground: () => (<LinearGradient
+          colors={['#3A4B84','#CD3131']}
+          start={{ x: 1, y: 2 }}
+          end={{ x: 0, y: 0 }}
+          style={{ flex: 1 }}
+        />
+        )
+      }}>
         <Tabs.Screen
           name="index"
           options={{

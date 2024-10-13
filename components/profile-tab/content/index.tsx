@@ -20,7 +20,7 @@ export default function ProfileContent() {
     };
 
     return (
-        <VStack className="flex-1 h-full w-full">
+        <VStack className="flex-1 h-full w-full mt-5">
             <VStack className="jutify-center items-center my-10 flex-1">
                 <StyledTitle text="Rendimento do curso" color="black" />
                 <HStack style={styles.contentContainer}>
@@ -42,7 +42,7 @@ export default function ProfileContent() {
             </VStack>
 
             <VStack className="jutify-center items-center my-10">
-                <StyledTitle text="Rendimento do curso" color="black" />
+                <StyledTitle text="Prazo de integralização" color="black" />
                 <HStack style={styles.contentContainer}>
                     <Card variant="ghost" size="sm">
                         <Heading size="sm">Percentual de progressão</Heading>
