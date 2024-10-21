@@ -31,9 +31,10 @@ export default function Login() {
             <Image source={require('@/assets/logo/Logo.png')} alt="Logo Siga" />
             <Heading>Faça login em sua conta</Heading>
 
-            <StyledInput label='Login' type='text' placeholder='Insira seu login do SIGA' onChangeText={(value) => { setLogin({ ...login, user: value }) }} />
-            <StyledInput label='Senha' type='password' placeholder='Insira sua senha' onChangeText={(value) => { setLogin({ ...login, pass: value }) }} />
-
+            <View style={styles.inputContainer}>
+                <StyledInput label='Login' type='text' placeholder='Insira seu login do SIGA' onChangeText={(value) => { setLogin({ ...login, user: value }) }} />
+                <StyledInput label='Senha' type='password' placeholder='Insira sua senha' onChangeText={(value) => { setLogin({ ...login, pass: value }) }} />
+            </View>
 
             <View style={styles.buttonsContainer}>
                 <StyledButton
@@ -62,5 +63,9 @@ const styles = StyleSheet.create({
     },
     input: {
         width: 300
+    },
+    inputContainer: {
+        width: '100%',
+        paddingHorizontal: 30,
     }
 })

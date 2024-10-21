@@ -1,32 +1,39 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import StyledSelect from '@/components/styled-select';
 import { Text } from '@/components/ui/text';
+import StyledInput from '@/components/styled-input';
 
 export default function Control() {
-    const options = ['Histórico (Grade)', 'Histórico Completo', 'Horários', 'Notas Parciais', 'Faltas Parciais'];
-    const [option, setOption] = useState('');
+    const options = [{ name: 'Horários', id: '1' }, { name: 'Notas Parciais', id: '2' }, { name: 'Faltas Parciais', id: '3' }];
+    const [option, setOption] = useState('Horários');
 
     function selectValue(value: string) {
         setOption(value);
     }
 
     return (
-        <View style={style.container}>
+        <View style={styles.container}>
             <Text>.</Text>
             <Text>
                 {option}
             </Text>
-            <StyledSelect title='Selecione uma opção' options={options} onChange={selectValue} />
+
+            <View style={styles.inputContainer}>
+                <StyledInput label='Selecione uma opção' options={options} onChangeText={selectValue} type='select-options' defaultValue='Horários' />
+            </View>
         </View>
     );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'column'
     },
+    inputContainer: {
+        width: '100%',
+        padding: 15,
+    }
 })

@@ -1,22 +1,22 @@
-import { StyleSheet } from "react-native";
 import { Text } from "../ui/text";
+import { textStyle } from "../ui/text/styles";
+import { VariantProps } from "@gluestack-ui/nativewind-utils";
 
-interface StyledTitleProps {
+interface StyledTitleProps extends VariantProps<typeof textStyle> {
     text: string
     color?: string
 }
 
-export default function StyledTitle({ text, color }: StyledTitleProps) {
+export default function StyledTitle({ text, color, ...rest }: StyledTitleProps) {
     return (
-        <Text selectionColor='white' size="2xl" style={{color: color ?? 'white'}}>
+        <Text 
+        selectionColor='white' 
+        className="font-serif"
+        size="2xl" 
+        bold={true} 
+        style={{color: color ?? 'black'}} 
+        {...rest}>
             {text}
         </Text>
     )
 }
-
-const style = StyleSheet.create({
-    title: {
-        fontWeight: 'bold',
-        fontFamily: 'Roboto'
-    }
-})

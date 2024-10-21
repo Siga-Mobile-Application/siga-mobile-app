@@ -1,20 +1,15 @@
 import { VStack } from "@/components/ui/vstack";
 import ProfileHeaderIcon from "../avatar-icon-header";
 import { HStack } from "@/components/ui/hstack";
-import { Text } from "@/components/ui/text";
 import { Divider } from "@/components/ui/divider";
 import { useContext } from "react";
 import AuthContext from "@/contexts/auth";
 import { ImageBackground, StyleSheet } from "react-native";
-import { Card } from "@/components/ui/card";
-import { Heading } from "@/components/ui/heading";
-import { View } from "react-native";
 import StyledText from "@/components/styled-text";
 
 export default function ProfileHeader() {
     const { user } = useContext(AuthContext);
 
-    const profilePicture = 'https:\\siga.cps.sp.gov.br/image//6GVG96KRA8BC7EFHED58NEH6HUZD6W.TMB.JPG';
     const profileInfo = {
         nome: 'Carlos',
         curso: 'Analise e Desenvolvimetnto de Sistemas', ra: '11111111111', ciclo: '4',

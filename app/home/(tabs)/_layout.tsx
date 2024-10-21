@@ -1,21 +1,16 @@
+import ButtonFilter from '@/components/filter/button-filter';
+import { FilterProvider } from '@/contexts/filter';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Tabs } from 'expo-router';
 
 export default function Layout() {
   return (
-    <>
+    <FilterProvider>
       <Tabs screenOptions={{
         tabBarInactiveTintColor: 'white',
-        tabBarActiveTintColor: '#97D3FA', 
+        tabBarActiveTintColor: '#97D3FA',
         headerShown: false,
-        tabBarBackground: () => (<LinearGradient
-          colors={['#3A4B84','#CD3131']}
-          start={{ x: 1, y: 2 }}
-          end={{ x: 0, y: 0 }}
-          style={{ flex: 1 }}
-        />
-        )
+        tabBarStyle: { backgroundColor: 'black' }
       }}>
         <Tabs.Screen
           name="index"
@@ -32,6 +27,16 @@ export default function Layout() {
           }}
         />
         <Tabs.Screen
+          name="history"
+          options={{
+            headerShown: true,
+            headerRightContainerStyle: { marginEnd: 20 },
+            headerRight: () => <ButtonFilter />,
+            title: 'Histórico',
+            tabBarIcon: ({ color }) => <FontAwesome size={28} name="history" color={color} />,
+          }}
+        />
+        <Tabs.Screen
           name='profile'
           options={{
             headerShown: true,
@@ -40,6 +45,6 @@ export default function Layout() {
           }}
         />
       </Tabs>
-    </>
+    </FilterProvider>
   );
 }
