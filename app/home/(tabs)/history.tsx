@@ -18,10 +18,6 @@ export default function History() {
         { sigla: 'CEF100', disciplina: 'Economia e Finanças', periodo: '20232', aprovado: 'Aprovado(a)', mediaFinal: 9.00, frequencia: '100%', qtdFaltas: 0, observacao: 'Aprovado por Nota e Frequência' }
     ];
 
-    function selectValue(value: string) {
-        setOption(value);
-    }
-
     return (
         <>
             <Filter />
@@ -37,7 +33,7 @@ export default function History() {
                 </View>
 
                 <View style={styles.inputContainer}>
-                    <StyledInput label='Selecione uma opção' options={options} onChangeText={selectValue} type='select-options' defaultValue="Histórico Completo" />
+                    <StyledInput label='Selecione uma opção' options={options} onChangeText={setOption} type='select-options' defaultValue={option} />
                 </View>
             </View>
         </>

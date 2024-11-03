@@ -7,6 +7,7 @@ import { Heading } from '@/components/ui/heading';
 import { useContext, useState } from 'react';
 import AuthContext from '@/contexts/auth';
 import api from '@/helper/axios';
+import StyledTitle from '@/components/styled-title';
 
 export default function Login() {
     const [login, setLogin] = useState({ user: '', pass: '' });
@@ -28,8 +29,10 @@ export default function Login() {
 
     return (
         <View style={styles.container}>
-            <Image source={require('@/assets/logo/Logo.png')} alt="Logo Siga" />
-            <Heading>Faça login em sua conta</Heading>
+            <View style={styles.header}>
+                <Image source={require('@/assets/logo/Logo.png')} alt="Logo Siga" />
+                <StyledTitle text='Faça login em sua conta' />
+            </View>
 
             <View style={styles.inputContainer}>
                 <StyledInput label='Login' type='text' placeholder='Insira seu login do SIGA' onChangeText={(value) => { setLogin({ ...login, user: value }) }} />
@@ -39,11 +42,12 @@ export default function Login() {
             <View style={styles.buttonsContainer}>
                 <StyledButton
                     text='Entrar'
+                    className='bg-sky-600'
                     onClick={() => { router.replace('/home'); }}
                     isLoading={isLoading} />
 
                 <Link href='https://www.gluestack.io.com'>
-                    <LinkText onPress={() => { router.replace('auth/forgotPass') }}>Esqueceu sua senha?</LinkText>
+                    <LinkText onPress={() => { router.navigate('auth/forgotPass') }}>Esqueceu sua senha?</LinkText>
                 </Link>
             </View>
 
@@ -58,14 +62,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'column'
     },
-    buttonsContainer: {
-        marginTop: 20
+    header: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center'
     },
-    input: {
-        width: 300
+    buttonsContainer: {
+        flex: 1,
+        justifyContent: 'space-around',
+        paddingHorizontal: 50,
+        paddingBottom: 20
     },
     inputContainer: {
+        flex: 1,
         width: '100%',
-        paddingHorizontal: 30,
-    }
-})
+        justifyContent: 'center',
+        rowGap: 20,
+        paddingHorizontal: 30
+    },
+});

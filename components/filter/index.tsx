@@ -13,7 +13,7 @@ export default function Filter() {
         isOpen &&
         <View className="w-full px-5 py-10 bg-rose-300">
             <VStack>
-                <StyledInput type="text" placeholder="Pesquisar por matéria" bgColor="white" />
+                <StyledInput type="text" placeholder="Pesquisar por matéria" className="bg-white" />
                 
             </VStack>
 

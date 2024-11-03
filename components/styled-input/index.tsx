@@ -5,39 +5,39 @@ import { Select, SelectBackdrop, SelectContent, SelectDragIndicator, SelectDragI
 import { ChevronDownIcon } from "../ui/icon";
 import { Textarea, TextareaInput } from "../ui/textarea";
 import StyledFormControl from "../styled-form-control";
+
 interface StyledInputProps {
     label?: string
     placeholder?: string
     onChangeText?: (text: string) => void
+    onClick?: () => void
     type: 'text' | 'password' | 'select-options' | 'text-area'
     options?: Array<{ name: string, id: string }>
     defaultValue?: string
     isRead?: boolean
     helper?: string
-    variant?: "underlined" | "outline" | "rounded" | undefined
-    bgColor?: string
+    className?: string
 }
 
-
-export default function StyledInput({ label, helper, placeholder, type, options, onChangeText, defaultValue, isRead, variant, bgColor }: StyledInputProps) {
+export default function StyledInput({ label, helper, placeholder, type, options, className, onChangeText, onClick, defaultValue, isRead }: StyledInputProps) {
     return (
         <VStack space="xs">
             <StyledFormControl label={label} helper={helper}>
                 {
                     ['text', 'password'].includes(type) ?
 
-                        <Input isReadOnly={isRead} style={[styles.input, { backgroundColor: bgColor }]} variant={variant}>
+                        <Input isReadOnly={isRead} style={[styles.input]} className={className}>
                             <InputField
                                 type={(type == 'text' || type == 'password') ? type : 'text'}
                                 placeholder={placeholder}
-                                defaultValue={defaultValue ?? defaultValue}
+                                defaultValue={defaultValue}
                                 onChangeText={onChangeText} />
                         </Input>
 
                         :
 
                         type == 'select-options' ?
-                            <Select onValueChange={onChangeText} defaultValue={defaultValue} style={{ backgroundColor: bgColor }}>
+                            <Select onValueChange={onChangeText} onOpen={onClick} defaultValue={defaultValue} className={className}> 
                                 <SelectTrigger variant="outline" size="md" style={{ justifyContent: 'space-between' }}>
                                     <SelectInput placeholder={placeholder} />
                                     <SelectIcon className="mr-3" as={ChevronDownIcon} />
@@ -60,8 +60,8 @@ export default function StyledInput({ label, helper, placeholder, type, options,
 
                             :
 
-                            <Textarea size="md" style={{ backgroundColor: bgColor }}>
-                                <TextareaInput onChangeText={onChangeText} placeholder={placeholder} />
+                            <Textarea size="md" className={className}>
+                                <TextareaInput defaultValue={defaultValue} onChangeText={onChangeText} placeholder={placeholder} />
                             </Textarea>
                 }
             </StyledFormControl>
