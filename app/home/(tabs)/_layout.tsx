@@ -22,7 +22,7 @@ export default function Layout() {
         <Tabs.Screen
           name="control"
           options={{
-            title: 'Consultas',
+            title: 'Atual',
             tabBarIcon: ({ color }) => <FontAwesome size={28} name="book" color={color} />,
           }}
         />
