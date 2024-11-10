@@ -3,54 +3,68 @@ import { Link, LinkText } from '@/components/ui/link';
 import StyledInput from '@/components/styled-input';
 import StyledButton from '@/components/styled-button';
 import { router } from 'expo-router';
-import { Heading } from '@/components/ui/heading';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AuthContext from '@/contexts/auth';
-import api from '@/helper/axios';
 import StyledTitle from '@/components/styled-title';
+import { ToastAndroid } from 'react-native';
+import StyledCheckBox from '@/components/styled-checkbox';
+import { Spinner } from '@/components/ui/spinner';
 
 export default function Login() {
     const [login, setLogin] = useState({ user: '', pass: '' });
-    const [isLoading, setLoading] = useState(false);
-    const { signIn, user } = useContext(AuthContext);
+    const [isLoading, setIsLoading] = useState(false);
+    const [keepLogin, setKeepLogin] = useState<string[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const { signIn, verifyKeepLogin } = useContext(AuthContext);
 
     async function handleLogin() {
-        if (!login.user || !login.pass) return;
+        if (!login.user || !login.pass) return ToastAndroid.showWithGravity('Preencha todos os campos!', ToastAndroid.SHORT, ToastAndroid.TOP);
 
-        setLoading(true);
+        setIsLoading(true);
 
-        signIn(login.user, login.pass).then(res => {
-            console.log('Bem-vindo: ', user?.name);
-            router.replace('/home');
-        }).catch(e => {
-            console.log(e);
-        }).finally(() => setLoading(false));
+        signIn(login.user, login.pass, keepLogin ? true : false).finally(() => setIsLoading(false));
     };
+
+    useEffect(() => {
+        verifyKeepLogin().finally(() => { setLoading(false); });
+    }, []);
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Image source={require('@/assets/logo/Logo.png')} alt="Logo Siga" />
-                <StyledTitle text='Faça login em sua conta' />
-            </View>
+            {
+                loading ?
+                    <>
+                        <Image source={require('@/assets/logo/Logo.png')} alt="Logo Siga" />
 
-            <View style={styles.inputContainer}>
-                <StyledInput label='Login' type='text' placeholder='Insira seu login do SIGA' onChangeText={(value) => { setLogin({ ...login, user: value }) }} />
-                <StyledInput label='Senha' type='password' placeholder='Insira sua senha' onChangeText={(value) => { setLogin({ ...login, pass: value }) }} />
-            </View>
+                        <Spinner size='large' style={{ alignSelf: 'center', marginTop: 20 }} />
+                    </>
+                    :
+                    <>
+                        <View style={styles.header}>
+                            <Image source={require('@/assets/logo/Logo.png')} alt="Logo Siga" />
+                            <StyledTitle text='Faça login em sua conta' />
+                        </View>
 
-            <View style={styles.buttonsContainer}>
-                <StyledButton
-                    text='Entrar'
-                    className='bg-sky-600'
-                    onClick={() => { router.replace('/home'); }}
-                    isLoading={isLoading} />
+                        <View style={styles.inputContainer}>
+                            <StyledInput label='Login' type='text' placeholder='Insira seu login do SIGA' onChangeText={(value) => { setLogin({ ...login, user: value }) }} />
+                            <StyledInput label='Senha' type='password' placeholder='Insira sua senha' onChangeText={(value) => { setLogin({ ...login, pass: value }) }} />
+                            <StyledCheckBox options={['Continuar conectado?']} selectedOption={keepLogin} setSelectedOptions={setKeepLogin} />
+                        </View>
 
-                <Link href='https://www.gluestack.io.com'>
-                    <LinkText onPress={() => { router.navigate('auth/forgotPass') }}>Esqueceu sua senha?</LinkText>
-                </Link>
-            </View>
+                        <View style={styles.buttonsContainer}>
+                            <StyledButton
+                                text='Entrar'
+                                className='bg-sky-600'
+                                onClick={handleLogin}
+                                isLoading={isLoading} />
 
+                            <Link href='https://www.gluestack.io.com'>
+                                <LinkText onPress={() => { router.navigate('auth/forgotPass') }}>Esqueceu sua senha?</LinkText>
+                            </Link>
+                        </View>
+                    </>
+            }
         </View>
     );
 }
