@@ -1,39 +1,72 @@
 import api from "@/helper/axios";
-import React, { createContext, ReactNode, useContext, useState } from "react";
+import React, { createContext, ReactNode, useState } from "react";
+import { Buffer } from "buffer";
+import * as SecureStore from 'expo-secure-store';
+import { ToastAndroid } from "react-native";
+import { router } from "expo-router";
 
 interface AuthProviderProps {
-    children: ReactNode;
+    children: ReactNode
 }
 
 interface AuthContextData {
-    signed: boolean;
-    user: {ra: string, name: string, email: string, picture: string} | null;
-    signIn(login: string, pass: string): Promise<void>;
-    signOut(): void;
+    signed: boolean
+    user: StudentInfoProps
+    signIn: (login: string, pass: string, keepLogin?: boolean) => Promise<void>
+    signOut: () => Promise<void>
+    verifyKeepLogin: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [user, setUser] = useState<{ra: string, name: string, email: string, picture: string} | null>(null);
+    const [user, setUser] = useState<StudentInfoProps>({} as StudentInfoProps);
 
-    async function signIn(login: string, pass: string) {
-        const credentials = { user: login, pass: pass };
+    async function signIn(login: string, pass: string, keepLogin?: boolean, auth?: string) {
+        const authorization = Buffer.from(`${login} | ${pass}`, 'utf-8').toString('base64');
 
-        await api.post('/data', credentials).then(res => {
+        if (keepLogin) {
+            await SecureStore.setItemAsync('authorization', authorization);
+        }
+
+        await api.get('/data', { headers: { authorization } }).then(res => {
             setUser(res.data);
-            return Promise.resolve('Sucesso!');
-            }).catch(e => {
-            return Promise.reject('Erro: ' + e);
+            router.replace('/home');
+        }).catch(e => {
+            if (!e.status) {
+                ToastAndroid.showWithGravity('Problema com o servidor, tente novamente mais tarde', ToastAndroid.SHORT, ToastAndroid.TOP);
+            } else {
+                ToastAndroid.showWithGravity(e.response.data.error, ToastAndroid.SHORT, ToastAndroid.TOP);
+            }
         });
     }
 
-    function signOut() {
-        setUser(null);
+    async function signOut() {
+        setUser({} as StudentInfoProps);
+        await SecureStore.deleteItemAsync('authorization').finally(() => {
+            router.replace('/');
+            ToastAndroid.showWithGravity('Você saiu com sucesso!', ToastAndroid.SHORT, ToastAndroid.TOP);
+            return Promise.resolve();
+        });
+    }
+
+    async function verifyKeepLogin() {
+        await SecureStore.getItemAsync('authorization').then(async (authorization) => {
+            if (authorization) {
+                await api.get('/data', { headers: { authorization } }).then(res => {
+                    setUser(res.data);
+                    router.replace('/home');
+                }).catch(e => {
+                });
+            }
+        })
+
+
+        return Promise.resolve();
     }
 
     return (
-        <AuthContext.Provider value={{ signed: !!user, user: user, signIn, signOut }}>
+        <AuthContext.Provider value={{ signed: !!user, user: user, signIn, signOut, verifyKeepLogin }}>
             {children}
         </AuthContext.Provider>
     )

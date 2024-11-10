@@ -11,14 +11,6 @@ import StyledTitle from "@/components/styled-title";
 export default function ProfileContent() {
     const { user } = useContext(AuthContext);
 
-    const profileInfo = {
-        nome: 'Carlos',
-        curso: 'Analise e Desenvolvimetnto de Sistemas', ra: '11111111111', ciclo: '4',
-        pp: '50%', pr: '9', 'pp(Intercâmbio)': '68%',
-        cursando: '4', maximo: '10', faltam: '6',
-        email: 'email@email.email'
-    };
-
     return (
         <VStack className="flex-1 h-full w-full mt-5">
             <VStack className="jutify-center items-center my-10 flex-1">
@@ -26,17 +18,12 @@ export default function ProfileContent() {
                 <HStack style={styles.contentContainer}>
                     <Card variant="ghost" size="sm">
                         <Heading size="sm">Percentual de progressão</Heading>
-                        <Text>{profileInfo.pp}</Text>
+                        <Text>{user.pp}</Text>
                     </Card>
 
                     <Card variant="ghost" size="sm">
                         <Heading size="sm">Percentual de rendimento</Heading>
-                        <Text>{profileInfo.pp}</Text>
-                    </Card>
-
-                    <Card variant="ghost" size="sm">
-                        <Heading size="sm">PP (intercâmbio)</Heading>
-                        <Text>{profileInfo.pp}</Text>
+                        <Text>{user.pr}</Text>
                     </Card>
                 </HStack>
             </VStack>
@@ -45,19 +32,18 @@ export default function ProfileContent() {
                 <StyledTitle text="Prazo de integralização" color="black" />
                 <HStack style={styles.contentContainer}>
                     <Card variant="ghost" size="sm">
-                        <Heading size="sm">Percentual de progressão</Heading>
-                        <Text>{profileInfo.pp}</Text>
+                        <Heading size="sm">Semestres cursados</Heading>
+                        <Text>{user.semestre_cursado}</Text>
+                    </Card>
+                    <Card variant="ghost" size="sm">
+                        <Heading size="sm">Semestres restantes</Heading>
+                        <Text>{user.semestre_restante}</Text>
+                    </Card>
+                    <Card variant="ghost" size="sm">
+                        <Heading size="sm">Semestres máximo para completar o curso</Heading>
+                        <Text>{user.semestre_maximo}</Text>
                     </Card>
 
-                    <Card variant="ghost" size="sm">
-                        <Heading size="sm">Percentual de rendimento</Heading>
-                        <Text>{profileInfo.pp}</Text>
-                    </Card>
-
-                    <Card variant="ghost" size="sm">
-                        <Heading size="sm">PP (intercâmbio)</Heading>
-                        <Text>{profileInfo.pp}</Text>
-                    </Card>
                 </HStack>
             </VStack>
         </VStack>

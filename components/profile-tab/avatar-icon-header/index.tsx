@@ -8,7 +8,7 @@ import StyledText from "@/components/styled-text";
 
 interface AvatarProps {
     name: string,
-    subTitle: string,
+    subTitle?: string,
     image?: string
 }
 
@@ -20,7 +20,7 @@ export default function ProfileHeaderIcon({ name, subTitle, image }: AvatarProps
             </Avatar>
             <Box className="items-center">
                 <Heading size="2xl" className="text-black">{name}</Heading>
-                <StyledText text={subTitle} size="lg" fontWeight="bold" />
+                <StyledText text={subTitle ?? ""} size="lg" fontWeight="bold" />
             </Box>
         </VStack>
     )
