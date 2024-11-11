@@ -15,6 +15,7 @@ interface AuthContextData {
     signIn: (login: string, pass: string, keepLogin?: boolean) => Promise<void>
     signOut: () => Promise<void>
     verifyKeepLogin: () => Promise<void>
+    getAuth: () => Promise<string>
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -57,16 +58,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                     setUser(res.data);
                     router.replace('/home');
                 }).catch(e => {
+                    ToastAndroid.showWithGravity('Problema com o servidor, tente novamente mais tarde', ToastAndroid.SHORT, ToastAndroid.TOP);
                 });
             }
         })
 
-
         return Promise.resolve();
     }
 
+    async function getAuth() {
+        const authorization = await SecureStore.getItemAsync('authorization');
+
+        return authorization ?? "";
+    }
+
     return (
-        <AuthContext.Provider value={{ signed: !!user, user: user, signIn, signOut, verifyKeepLogin }}>
+        <AuthContext.Provider value={{ signed: !!user, user: user, signIn, signOut, verifyKeepLogin, getAuth }}>
             {children}
         </AuthContext.Provider>
     )

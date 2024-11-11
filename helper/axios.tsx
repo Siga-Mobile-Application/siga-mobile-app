@@ -5,6 +5,7 @@ const uri = Constants.expoConfig?.hostUri ? `http://${Constants.expoConfig?.host
 
 const api = axios.create({
    baseURL: uri,
+   timeout: 10000
 });
 
 // api.defaults.withCredentials = true;
