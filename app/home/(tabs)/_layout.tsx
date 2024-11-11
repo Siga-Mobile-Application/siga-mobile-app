@@ -1,7 +1,9 @@
 import ButtonFilter from '@/components/filter/button-filter';
+import Logout from '@/components/profile-tab/logout';
 import { FilterProvider } from '@/contexts/filter';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
+import React from 'react';
 
 export default function Layout() {
   return (
@@ -10,7 +12,6 @@ export default function Layout() {
         screenOptions={{
           tabBarInactiveTintColor: 'white',
           tabBarActiveTintColor: '#97D3FA',
-          headerShown: false,
           tabBarStyle: { backgroundColor: 'black' },
         }}>
         <Tabs.Screen
@@ -18,6 +19,13 @@ export default function Layout() {
           options={{
             title: 'Inicio',
             tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+          }}
+        />
+        <Tabs.Screen
+          name="schedule"
+          options={{
+            title: 'Horários',
+            tabBarIcon: ({ color }) => <FontAwesome size={28} name="calendar" color={color} />,
           }}
         />
         <Tabs.Screen
@@ -30,7 +38,6 @@ export default function Layout() {
         <Tabs.Screen
           name="history"
           options={{
-            headerShown: true,
             headerRightContainerStyle: { marginEnd: 20 },
             headerRight: () => <ButtonFilter />,
             title: 'Histórico',
@@ -40,7 +47,8 @@ export default function Layout() {
         <Tabs.Screen
           name='profile'
           options={{
-            headerShown: true,
+            headerRightContainerStyle: { marginEnd: 20 },
+            headerRight: () => <Logout />,
             title: 'Perfil',
             tabBarIcon: ({ color }) => <FontAwesome size={28} name="user" color={color} />,
           }}

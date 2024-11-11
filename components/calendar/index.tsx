@@ -3,28 +3,29 @@ import { StyleSheet, View } from "react-native";
 import StyledTitle from "../styled-title";
 import { Text } from "../ui/text";
 import { Table, TableBody, TableData, TableHead, TableHeader, TableRow } from "../ui/table";
+import { ScheduleProps } from "@/interfaces/schedule";
 
 interface CalendarProps {
     day: string
-    data: DisciplineProps[]
+    data: ScheduleProps[]
 }
 
 export default function Calendar({ day, data }: CalendarProps) {
     return (
         data.length > 0 &&
         <View className="w-full mt-5 p-4" style={styles.container}>
-            <StyledTitle size="2xl">{day}</StyledTitle>
+            <StyledTitle size="lg">{day}</StyledTitle>
             <View className="w-full">
-                <Table className="w-full">
+                <Table className="w-full text-sm">
                     <TableHeader>
                         <TableRow>
-                            <TableHead>
+                            <TableHead className="text-sm" adjustsFontSizeToFit={true} style={{ flexGrow: 3, textAlign: 'center' }}>
                                 Horários
                             </TableHead>
-                            <TableHead>
+                            <TableHead className="text-sm" adjustsFontSizeToFit={true} style={{ flexGrow: 4, textAlign: 'center' }}>
                                 Disciplina
                             </TableHead>
-                            <TableHead>
+                            <TableHead className="text-sm" adjustsFontSizeToFit={true} style={{ flexGrow: 2, textAlign: 'center' }}>
                                 Turma
                             </TableHead>
                         </TableRow>
@@ -35,13 +36,13 @@ export default function Calendar({ day, data }: CalendarProps) {
                                 {
                                     item.horario.map((date) => (
                                         <TableRow key={date}>
-                                            <TableData>
+                                            <TableData className="text-sm" adjustsFontSizeToFit={true} style={{ flexGrow: 3, textAlign: 'center' }}>
                                                 {date}
                                             </TableData>
-                                            <TableData>
+                                            <TableData className="text-sm" adjustsFontSizeToFit={true} style={{ flexGrow: 4, textAlign: 'center' }}>
                                                 {item.disciplina}
                                             </TableData>
-                                            <TableData>
+                                            <TableData className="text-sm" adjustsFontSizeToFit={true} style={{ flexGrow: 2, textAlign: 'center' }}>
                                                 {item.turma}
                                             </TableData>
                                         </TableRow>
@@ -58,6 +59,7 @@ export default function Calendar({ day, data }: CalendarProps) {
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'baseline'
+        alignItems: 'center',
+        rowGap: 10
     }
 })
