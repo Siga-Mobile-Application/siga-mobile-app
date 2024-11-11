@@ -6,7 +6,7 @@ import { AuthProvider } from "@/contexts/auth";
 export default function Layout() {
     return (
         <GluestackUIProvider>
-            <AuthProvider>
+            <AuthProvider >
                 <Slot />
             </AuthProvider>
         </GluestackUIProvider>

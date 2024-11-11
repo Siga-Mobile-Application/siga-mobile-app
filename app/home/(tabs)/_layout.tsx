@@ -29,9 +29,9 @@ export default function Layout() {
           }}
         />
         <Tabs.Screen
-          name="control"
+          name="grades"
           options={{
-            title: 'Atual',
+            title: 'Notas Parciais',
             tabBarIcon: ({ color }) => <FontAwesome size={28} name="book" color={color} />,
           }}
         />
