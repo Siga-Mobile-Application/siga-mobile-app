@@ -16,7 +16,6 @@ export default function History() {
 
     const { getAuth } = useContext(AuthContext);
     const { isOpen } = useContext(FilterContext);
-    const options = [{ name: 'Histórico (Grade)', id: '1' }, { name: 'Histórico Completo', id: '2' }];
 
     useEffect(() => {
         getAuth().then((res) => {
@@ -37,21 +36,9 @@ export default function History() {
                     loading ?
                         <Loading />
                         :
-                        <>
-
-                            <View style={styles.dataContainer}>
-                                {
-                                    option == 'Histórico Completo' ?
-                                        <HistoryData disciplines={data} />
-                                        :
-                                        <></>
-                                }
-                            </View>
-
-                            <View style={styles.inputContainer}>
-                                <StyledInput label='Selecione uma opção' options={options} onChangeText={setOption} type='select-options' defaultValue={option} />
-                            </View>
-                        </>
+                        <View style={styles.dataContainer}>
+                            <HistoryData disciplines={data} />
+                        </View>
                 }
             </View>
         </>
