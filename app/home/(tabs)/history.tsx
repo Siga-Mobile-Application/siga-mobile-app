@@ -10,7 +10,6 @@ import { useContext, useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 
 export default function History() {
-    const [option, setOption] = useState('Histórico Completo');
     const [data, setData] = useState<DisciplineHistoryProps[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -62,4 +61,4 @@ const styles = StyleSheet.create({
         padding: 15,
         backgroundColor: '0,0,0,0.5'
     }
-})
+});

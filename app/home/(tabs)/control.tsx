@@ -77,10 +77,6 @@ export default function Control() {
             <View>
                 <Calendar day='Sábado' data={data.filter((item) => (item.dia == 'Sábado'))} />
             </View>
-
-            {/* <View style={styles.inputContainer}>
-                <StyledInput label='Selecione uma opção' options={options} onChangeText={setOption} type='select-options' defaultValue='Horários' />
-            </View> */}
         </ScrollView>
     );
 }
