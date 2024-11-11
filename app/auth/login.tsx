@@ -8,7 +8,7 @@ import AuthContext from '@/contexts/auth';
 import StyledTitle from '@/components/styled-title';
 import { ToastAndroid } from 'react-native';
 import StyledCheckBox from '@/components/styled-checkbox';
-import { Spinner } from '@/components/ui/spinner';
+import Loading from '@/components/loading';
 
 export default function Login() {
     const [login, setLogin] = useState({ user: '', pass: '' });
@@ -34,11 +34,7 @@ export default function Login() {
         <View style={styles.container}>
             {
                 loading ?
-                    <>
-                        <Image source={require('@/assets/logo/Logo.png')} alt="Logo Siga" />
-
-                        <Spinner size='large' style={{ alignSelf: 'center', marginTop: 20 }} />
-                    </>
+                    <Loading />
                     :
                     <>
                         <View style={styles.header}>

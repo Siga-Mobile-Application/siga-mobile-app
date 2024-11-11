@@ -6,12 +6,13 @@ import { Tabs } from 'expo-router';
 export default function Layout() {
   return (
     <FilterProvider>
-      <Tabs screenOptions={{
-        tabBarInactiveTintColor: 'white',
-        tabBarActiveTintColor: '#97D3FA',
-        headerShown: false,
-        tabBarStyle: { backgroundColor: 'black' }
-      }}>
+      <Tabs initialRouteName='profile'
+        screenOptions={{
+          tabBarInactiveTintColor: 'white',
+          tabBarActiveTintColor: '#97D3FA',
+          headerShown: false,
+          tabBarStyle: { backgroundColor: 'black' },
+        }}>
         <Tabs.Screen
           name="index"
           options={{

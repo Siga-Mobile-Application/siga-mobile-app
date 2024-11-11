@@ -1,33 +1,33 @@
-import React, { ReactElement, ReactNode, useState } from "react"
+import React, { ReactNode, useState } from "react"
 import { Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionTitleText, AccordionIcon, AccordionContent, AccordionContentText } from "../ui/accordion"
 import { Divider } from "../ui/divider"
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { ScrollView } from "react-native";
+import StyledTitle from "../styled-title";
 
 interface AccordionProps {
-    items: { header: string, content: ReactElement | string }[]
+    items: { header: string, content: ReactNode | string }[]
 }
 
 export default function StyledAccordion({ items }: AccordionProps) {
-    const [isExpanded, setExpanded] = useState(false);
-
     return (
         <Accordion
-            style={{height: 'auto'}}
-            size="md"
+            size="lg"
             variant="filled"
             type="single"
             isCollapsible={true}
             isDisabled={false}
-            className="m-5 w-[90%] border border-outline-200">
+            className="border border-outline-200 bg-black"
+            style={{ columnGap: 10, paddingHorizontal: 5 }}>
             {
                 items.map(item => (
-                    <AccordionItem style={{height: isExpanded ? '100%' : 'auto'}} key={item.header} value={item.header}>
+                    <AccordionItem key={item.header} value={item.header} className="bg-cyan-50">
                         <AccordionHeader>
                             <AccordionTrigger>
                                 {({ isExpanded }) => {
                                     return (
                                         <>
-                                            <AccordionTitleText>{item.header}</AccordionTitleText>
+                                            <AccordionTitleText><StyledTitle>{item.header}</StyledTitle></AccordionTitleText>
                                             {isExpanded ? (
                                                 <AccordionIcon className="ml-3"><FontAwesome name="chevron-circle-up" /></AccordionIcon>
                                             ) : (
@@ -38,10 +38,8 @@ export default function StyledAccordion({ items }: AccordionProps) {
                                 }}
                             </AccordionTrigger>
                         </AccordionHeader>
-                        <AccordionContent>
-                            <AccordionContentText>
-                                {item.content}
-                            </AccordionContentText>
+                        <AccordionContent className="mt-0 pt-2 bg-cyan-100">
+                            {item.content}
                         </AccordionContent>
                     </AccordionItem>
                 ))

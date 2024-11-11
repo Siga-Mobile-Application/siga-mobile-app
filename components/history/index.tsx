@@ -1,66 +1,70 @@
 import { DisciplineHistoryProps } from "@/interfaces/history"
-import { View, Text, StyleSheet, FlatList, SectionList } from "react-native";
+import { View, Text, StyleSheet, FlatList, SectionList, ScrollView } from "react-native";
 import StyledTitle from "../styled-title";
 import { Badge } from "../ui/badge";
 import { HStack } from "../ui/hstack";
+import StyledAccordion from "../styled-accordion";
 
 interface HistoryDataProps {
     disciplines: DisciplineHistoryProps[]
 }
 
 export default function HistoryData({ disciplines }: HistoryDataProps) {
-    const renderItem = ({ item }: { item: DisciplineHistoryProps }) => (
-        <View style={styles.card}>
-            <View className="mb-5">
-                <Text style={styles.sigla}>{item.disciplina}</Text>
-                <HStack className="items-center">
-                    <Text className="mr-5" style={styles.disciplina}>{item.sigla}</Text>
-                    <Text>
-                        <Badge
-                            action={item.aprovado.match('Aprovado') ? 'success' : item.aprovado.match('Reprovado') ? 'error' : 'info'}
-                            size="sm"
-                            variant="outline">
-                            <Text>{item.aprovado}</Text>
-                        </Badge>
-                    </Text>
-                </HStack>
-            </View>
-            <Text>Período: {item.periodo}</Text>
-            <Text>Média Final: {item.mediaFinal}</Text>
-            <Text>Frequência: {item.frequencia}</Text>
-            <Text>Faltas: {item.qtdFaltas}</Text>
-            <Text>Observação: {item.observacao}</Text>
-        </View>
-    );
-
-    const dates = disciplines.map((item) => (item.periodo)).filter((item, index, list) => (list.indexOf(item) == index));
+    const dates = disciplines.map((item) => (item.periodo)).filter((item, index, list) => (list.indexOf(item) == index)).sort((a, b) => Number(a) - Number(b));
     const data = dates.map((date) => ({ title: date, data: disciplines.filter((item) => (item.periodo == date)) }));
 
+    const accordionItems = data.map((section) =>
+    ({
+        header: String(section.title).substring(0, 4) + '/' + String(section.title).charAt(4),
+        content:
+            section.data.map((item) => (
+                <View style={styles.card} key={item.disciplina}>
+                    <View className="mb-5">
+                        <Text style={styles.sigla}>{item.disciplina}</Text>
+                        <HStack className="items-center">
+                            <Text className="mr-5" style={styles.disciplina}>{item.sigla}</Text>
+                            <Text>
+                                <Badge
+                                    action={
+                                        item.aprovado.match('Aprovado') || item.observacao.match("Aproveitamento") || item.observacao.match("Proficiência") || item.observacao == "Aprovado" ?
+                                            'success' : item.aprovado.match('Em curso') ?
+                                                'info' : item.aprovado.match('Reprovado') ?
+                                                    'error' : 'info'}
+                                    size="sm"
+                                    variant="outline">
+                                    <Text>{item.observacao.match("Aproveitamento") || item.observacao.match("Proficiência") || item.observacao == "Aprovado" ?
+                                        item.observacao : item.aprovado}</Text>
+                                </Badge>
+                            </Text>
+                        </HStack>
+                    </View>
+                    <Text>Período: {item.periodo}</Text>
+                    {
+                        item.observacao.match("Aproveitamento") || item.observacao.match("Proficiência") || item.observacao == "Aprovado" ?
+                            <></>
+                            :
+                            <>
+                                <Text>Média Final: {item.mediaFinal}</Text>
+                                <Text>Frequência: {item.frequencia}</Text>
+                                <Text>Faltas: {item.qtdFaltas}</Text>
+                                <Text>Observação: {item.observacao}</Text>
+                            </>
+                    }
+                </View>
+            ))
+    }));
+
     return (
-        <View style={styles.container} className="w-full h-full">
-            <SectionList
-                className="w-full"
-                sections={data.sort((a, b) => (Number(a.title) - Number(b.title)))}
-                keyExtractor={(item) => item.disciplina}
-                renderItem={renderItem}
-                contentContainerStyle={styles.listContainer}
-                renderSectionHeader={({ section: { title } }) => (
-                    <StyledTitle text={`${title.substring(0, 4)}/${title.charAt(4)}`} />
-                )} />
-            {/* <FlatList
-                className="w-full"
-                data={disciplines.sort((a, b) => Number(a.periodo) - Number(b.periodo))}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.disciplina}
-                contentContainerStyle={styles.listContainer}
-            /> */}
-        </View>
+        <ScrollView className="w-full h-full">
+            <StyledAccordion items={accordionItems} />
+        </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
+        justifyContent: 'center'
     },
     listContainer: {
         paddingHorizontal: 10
