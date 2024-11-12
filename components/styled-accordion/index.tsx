@@ -7,9 +7,10 @@ import StyledTitle from "../styled-title";
 
 interface AccordionProps {
     items: { header: string, content: ReactNode | string }[]
+    size: 'lg' | '2xl'
 }
 
-export default function StyledAccordion({ items }: AccordionProps) {
+export default function StyledAccordion({ items, size }: AccordionProps) {
     return (
         <Accordion
             size="lg"
@@ -18,7 +19,7 @@ export default function StyledAccordion({ items }: AccordionProps) {
             isCollapsible={true}
             isDisabled={false}
             className="border border-outline-200 bg-black"
-            style={{ columnGap: 10, paddingHorizontal: 5 }}>
+            style={{ columnGap: 10, paddingHorizontal: 3 }}>
             {
                 items.map(item => (
                     <AccordionItem key={item.header} value={item.header} className="bg-cyan-50">
@@ -27,7 +28,7 @@ export default function StyledAccordion({ items }: AccordionProps) {
                                 {({ isExpanded }) => {
                                     return (
                                         <>
-                                            <AccordionTitleText><StyledTitle>{item.header}</StyledTitle></AccordionTitleText>
+                                            <AccordionTitleText><StyledTitle size={size}>{item.header}</StyledTitle></AccordionTitleText>
                                             {isExpanded ? (
                                                 <AccordionIcon className="ml-3"><FontAwesome name="chevron-circle-up" /></AccordionIcon>
                                             ) : (

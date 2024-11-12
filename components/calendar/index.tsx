@@ -40,7 +40,7 @@ export default function Calendar({ day, data }: CalendarProps) {
                                                 {date}
                                             </TableData>
                                             <TableData className="text-sm" adjustsFontSizeToFit={true} style={{ flexGrow: 4, textAlign: 'center' }}>
-                                                {item.disciplina}
+                                                {item.disciplina.substring(0, item.disciplina.indexOf('-'))}
                                             </TableData>
                                             <TableData className="text-sm" adjustsFontSizeToFit={true} style={{ flexGrow: 2, textAlign: 'center' }}>
                                                 {item.turma}

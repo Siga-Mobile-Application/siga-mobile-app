@@ -55,7 +55,7 @@ export default function HistoryData({ disciplines }: HistoryDataProps) {
 
     return (
         <ScrollView className="w-full h-full">
-            <StyledAccordion items={accordionItems} />
+            <StyledAccordion size="2xl" items={accordionItems} />
         </ScrollView>
     )
 }
