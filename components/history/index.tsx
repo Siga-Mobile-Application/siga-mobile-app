@@ -1,6 +1,5 @@
 import { DisciplineHistoryProps } from "@/interfaces/history"
-import { View, Text, StyleSheet, FlatList, SectionList, ScrollView } from "react-native";
-import StyledTitle from "../styled-title";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Badge } from "../ui/badge";
 import { HStack } from "../ui/hstack";
 import StyledAccordion from "../styled-accordion";
