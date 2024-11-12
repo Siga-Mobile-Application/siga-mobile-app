@@ -11,6 +11,7 @@ import { VStack } from '@/components/ui/vstack';
 import HelperContext from '@/contexts/helper';
 import { useIsFocused } from '@react-navigation/native';
 import ButtonReload from '@/components/reload-button';
+import Grades from '@/components/grades';
 
 export default function Control() {
     const [option, setOption] = useState('Notas Parciais');
@@ -68,28 +69,7 @@ export default function Control() {
                 :
 
                 <ScrollView contentContainerStyle={styles.container}>
-
-                    {
-                        data.map((item) => (
-                            <View style={styles.container}>
-                                <StyledTitle size='2xl' text={item.disciplina} />
-                                {
-                                    item.datas.map((avaliacao) => (
-                                        <VStack>
-                                            <Text>{avaliacao.data_prevista}</Text>
-                                            <HStack>
-                                                <Text>Avaliação: {avaliacao.titulo} | </Text>
-                                                {avaliacao.avaliacoes.map((assess) => (
-                                                    <Text>Nota: {assess.nota_parcial}, Data lançamento: {assess.data_lancamento}</Text>
-                                                ))}
-                                            </HStack>
-                                        </VStack>
-                                    ))
-                                }
-                            </View>
-                        ))
-
-                    }
+                    <Grades grades={data} />
                 </ScrollView>
     )
 
@@ -100,9 +80,6 @@ const styles = StyleSheet.create({
         width: '100%',
         alignContent: 'center',
         textAlign: 'justify',
-    },
-    inputContainer: {
-        width: '100%',
-        padding: 15,
+        padding: 10
     }
-})
+});
