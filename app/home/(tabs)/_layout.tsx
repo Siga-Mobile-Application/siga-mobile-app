@@ -1,22 +1,26 @@
-import ButtonFilter from '@/components/filter/button-filter';
+import ButtonReload from '@/components/reload-button';
 import Logout from '@/components/profile-tab/logout';
-import { FilterProvider } from '@/contexts/filter';
+import HelperContext, { HelperProvider } from '@/contexts/helper';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
-import React from 'react';
+import React, { useContext } from 'react';
 
 export default function Layout() {
+  const { useReload } = useContext(HelperContext);
+
   return (
-    <FilterProvider>
+    <HelperProvider>
       <Tabs initialRouteName='profile'
         screenOptions={{
           tabBarInactiveTintColor: 'white',
           tabBarActiveTintColor: '#97D3FA',
+          headerRight: () => <ButtonReload />,
           tabBarStyle: { backgroundColor: 'black' },
         }}>
         <Tabs.Screen
           name="index"
           options={{
+            headerRight: () => <></>,
             title: 'Inicio',
             tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
           }}
@@ -38,8 +42,6 @@ export default function Layout() {
         <Tabs.Screen
           name="history"
           options={{
-            headerRightContainerStyle: { marginEnd: 20 },
-            headerRight: () => <ButtonFilter />,
             title: 'Histórico',
             tabBarIcon: ({ color }) => <FontAwesome size={28} name="history" color={color} />,
           }}
@@ -47,13 +49,12 @@ export default function Layout() {
         <Tabs.Screen
           name='profile'
           options={{
-            headerRightContainerStyle: { marginEnd: 20 },
             headerRight: () => <Logout />,
             title: 'Perfil',
             tabBarIcon: ({ color }) => <FontAwesome size={28} name="user" color={color} />,
           }}
         />
       </Tabs>
-    </FilterProvider>
+    </HelperProvider>
   );
 }

@@ -52,16 +52,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     async function verifyKeepLogin() {
-        await SecureStore.getItemAsync('authorization').then(async (authorization) => {
-            if (authorization) {
-                await api.get('/data', { headers: { authorization } }).then(res => {
-                    setUser(res.data);
-                    router.replace('/home');
-                }).catch(e => {
-                    ToastAndroid.showWithGravity('Problema com o servidor, tente novamente mais tarde', ToastAndroid.SHORT, ToastAndroid.TOP);
-                });
-            }
-        })
+        await SecureStore.getItemAsync('authorization')
+            .then(async (authorization) => {
+                if (authorization) {
+                    await api.get('/data', { headers: { authorization } }).then(res => {
+                        setUser(res.data);
+                        router.replace('/home');
+                    }).catch(e => {
+                        ToastAndroid.showWithGravity('Problema com o servidor, tente novamente mais tarde', ToastAndroid.SHORT, ToastAndroid.TOP);
+                    });
+                }
+            }).catch(() => { });
 
         return Promise.resolve();
     }
