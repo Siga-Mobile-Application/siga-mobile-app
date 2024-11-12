@@ -9,6 +9,10 @@ import { ScrollView, StyleSheet, Text, ToastAndroid, View } from "react-native";
 import { useIsFocused } from '@react-navigation/native';
 import HelperContext from "@/contexts/helper";
 import ButtonReload from "@/components/reload-button";
+import { HStack } from "@/components/ui/hstack";
+import { VStack } from "@/components/ui/vstack";
+import { Badge, BadgeText } from "@/components/ui/badge";
+import StyledAccordion from "@/components/styled-accordion";
 
 export default function Schedule() {
     const [data, setData] = useState<ScheduleProps[]>([]);
@@ -64,6 +68,27 @@ export default function Schedule() {
                             :
 
                             <ScrollView contentContainerClassName="w-full">
+                                <StyledAccordion size="lg" items={[
+                                    {
+                                        header: 'Informações',
+                                        content: (<VStack className="flex-1" style={{ rowGap: 5 }}>
+                                            {
+                                                data.map((item) => (
+                                                    <HStack className="flex-1 justify-between" key={item.disciplina}>
+                                                        <Text>{item.disciplina}</Text>
+                                                        <Badge>
+                                                            <BadgeText>
+                                                                {item.sigla}
+                                                            </BadgeText>
+                                                        </Badge>
+                                                    </HStack>
+                                                ))
+                                            }
+                                        </VStack>)
+                                    }
+                                ]} />
+
+
                                 <View>
                                     <Calendar day='Segunda-Feira' data={data.filter((item) => (item.dia == 'Segunda-Feira')).sort((a, b) => (a.horario.toString().localeCompare(b.horario.toString())))} />
                                 </View>
