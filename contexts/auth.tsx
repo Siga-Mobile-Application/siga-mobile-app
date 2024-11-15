@@ -26,8 +26,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     async function signIn(login: string, pass: string, keepLogin?: boolean, auth?: string) {
         const authorization = Buffer.from(`${login} | ${pass}`, 'utf-8').toString('base64');
 
+        await SecureStore.setItemAsync('authorization', authorization);
+
         if (keepLogin) {
-            await SecureStore.setItemAsync('authorization', authorization);
+            await SecureStore.setItemAsync('keepLogin', 'true');
         }
 
         await api.get('/data', { headers: { authorization } }).then(res => {
@@ -44,6 +46,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     async function signOut() {
         setUser({} as StudentInfoProps);
+        await SecureStore.deleteItemAsync('keepLogin');
         await SecureStore.deleteItemAsync('authorization').finally(() => {
             router.replace('/');
             ToastAndroid.showWithGravity('Você saiu com sucesso!', ToastAndroid.SHORT, ToastAndroid.TOP);
@@ -52,17 +55,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     async function verifyKeepLogin() {
-        await SecureStore.getItemAsync('authorization')
-            .then(async (authorization) => {
-                if (authorization) {
-                    await api.get('/data', { headers: { authorization } }).then(res => {
-                        setUser(res.data);
-                        router.replace('/home');
-                    }).catch(e => {
-                        ToastAndroid.showWithGravity('Problema com o servidor, tente novamente mais tarde', ToastAndroid.SHORT, ToastAndroid.TOP);
-                    });
-                }
-            }).catch(() => { });
+        await SecureStore.getItemAsync('keepLogin').then(async (res) => {
+            if (res == 'true') {
+                await SecureStore.getItemAsync('authorization')
+                    .then(async (authorization) => {
+                        if (authorization) {
+                            await api.get('/data', { headers: { authorization } }).then(res => {
+                                setUser(res.data);
+                                router.replace('/home');
+                            }).catch(e => {
+                                ToastAndroid.showWithGravity('Problema com o servidor, tente novamente mais tarde', ToastAndroid.SHORT, ToastAndroid.TOP);
+                            });
+                        }
+                    }).catch(() => { });
+            } else {
+                await SecureStore.deleteItemAsync('authorization');
+            }
+        })
 
         return Promise.resolve();
     }

@@ -18,12 +18,14 @@ export default function Login() {
 
     const { signIn, verifyKeepLogin } = useContext(AuthContext);
 
+    const keepLoginOption: string[] = ['Continuar conectado?'];
+
     async function handleLogin() {
         if (!login.user || !login.pass) return ToastAndroid.showWithGravity('Preencha todos os campos!', ToastAndroid.SHORT, ToastAndroid.TOP);
 
         setIsLoading(true);
 
-        signIn(login.user, login.pass, keepLogin ? true : false).finally(() => setIsLoading(false));
+        signIn(login.user, login.pass, keepLogin.includes(keepLoginOption[0]) ? true : false).finally(() => setIsLoading(false));
     };
 
     useEffect(() => {
@@ -45,7 +47,7 @@ export default function Login() {
                         <View style={styles.inputContainer}>
                             <StyledInput label='Login' type='text' placeholder='Insira seu login do SIGA' onChangeText={(value) => { setLogin({ ...login, user: value }) }} />
                             <StyledInput label='Senha' type='password' placeholder='Insira sua senha' onChangeText={(value) => { setLogin({ ...login, pass: value }) }} />
-                            <StyledCheckBox options={['Continuar conectado?']} selectedOption={keepLogin} setSelectedOptions={setKeepLogin} />
+                            <StyledCheckBox options={keepLoginOption} selectedOption={keepLogin} setSelectedOptions={setKeepLogin} />
                         </View>
 
                         <View style={styles.buttonsContainer}>
