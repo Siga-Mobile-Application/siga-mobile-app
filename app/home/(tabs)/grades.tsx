@@ -12,6 +12,8 @@ import HelperContext from '@/contexts/helper';
 import { useIsFocused } from '@react-navigation/native';
 import ButtonReload from '@/components/reload-button';
 import Grades from '@/components/grades';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { loadGlobaData } from '@/helper/loadData';
 
 export default function Control() {
     const [option, setOption] = useState('Notas Parciais');
@@ -19,30 +21,31 @@ export default function Control() {
     const [loading, setLoading] = useState(true);
 
     const { reload } = useContext(HelperContext);
-    const { getAuth } = useContext(AuthContext);
+    const { getAuth, isConnected } = useContext(AuthContext);
 
     const isFocused = useIsFocused();
     const options = [{ name: 'Notas Parciais', id: '2' }, { name: 'Faltas Parciais', id: '3' }];
 
-    function loadData() {
+    async function loadData() {
         setLoading(true);
 
-        getAuth().then((res) => {
-            api.get('/data/grade', { headers: { authorization: res } })
-                .then((response) => {
-                    setData(response.data.data);
-                })
-                .catch((e) => {
-                    ToastAndroid.showWithGravity('Problema com o servidor, tente novamente mais tarde', ToastAndroid.SHORT, ToastAndroid.TOP);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        });
+        await loadGlobaData({ getAuth, setData, type: 'grade' }).finally(() => { setLoading(false); });
     };
 
+    async function loadLocalData() {
+        await AsyncStorage.getItem('grade')
+            .then((res) => {
+                if (res) {
+                    setData(JSON.parse(res));
+                    setLoading(false);
+                } else {
+                    loadData();
+                }
+            });
+    }
+
     useEffect(() => {
-        loadData();
+        loadLocalData();
     }, []);
 
     useEffect(() => {
@@ -62,8 +65,8 @@ export default function Control() {
 
             !data.length ?
 
-                <View className='w-full h-full justify-center'>
-                    <Text>Não foi possível resgatar os dados</Text>
+                <View className='w-full h-full justify-center align-center'>
+                    <Text>{isConnected ? 'Não foi possível resgatar os dados' : 'Sem conexão com a internet'}</Text>
                 </View>
 
                 :

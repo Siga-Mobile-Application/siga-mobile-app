@@ -22,7 +22,7 @@ export default function StyledButton({ text, onClick, color, textColor, isLoadin
             isDisabled={isLoading}>
             {
                 isLoading ?
-                    <ButtonSpinner />
+                    <ButtonSpinner color={textColor ? textColor : "white"} />
                     :
                     <ButtonText style={{ color: textColor ? textColor : "white" }}>{text}</ButtonText>
             }

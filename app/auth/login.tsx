@@ -6,30 +6,34 @@ import { router } from 'expo-router';
 import { useContext, useEffect, useState } from 'react';
 import AuthContext from '@/contexts/auth';
 import StyledTitle from '@/components/styled-title';
-import { ToastAndroid } from 'react-native';
 import StyledCheckBox from '@/components/styled-checkbox';
 import Loading from '@/components/loading';
+import { Text } from '@/components/ui/text';
 
 export default function Login() {
     const [login, setLogin] = useState({ user: '', pass: '' });
     const [isLoading, setIsLoading] = useState(false);
     const [keepLogin, setKeepLogin] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
+    const [message, setMessage] = useState('');
 
     const { signIn, verifyKeepLogin } = useContext(AuthContext);
 
     const keepLoginOption: string[] = ['Continuar conectado?'];
 
     async function handleLogin() {
-        if (!login.user || !login.pass) return ToastAndroid.showWithGravity('Preencha todos os campos!', ToastAndroid.SHORT, ToastAndroid.TOP);
+        if (!login.user || !login.pass) { return setMessage('* Preencha todos os campos *'); }
 
         setIsLoading(true);
 
-        signIn(login.user, login.pass, keepLogin.includes(keepLoginOption[0]) ? true : false).finally(() => setIsLoading(false));
+        signIn(login.user, login.pass, keepLogin.includes(keepLoginOption[0]) ? true : false)
+            .then((res) => { if (res) setMessage(res); })
+            .finally(() => setIsLoading(false));
     };
 
     useEffect(() => {
         verifyKeepLogin().finally(() => { setLoading(false); });
+        setMessage('');
     }, []);
 
     return (
@@ -47,19 +51,18 @@ export default function Login() {
                         <View style={styles.inputContainer}>
                             <StyledInput label='Login' type='text' placeholder='Insira seu login do SIGA' onChangeText={(value) => { setLogin({ ...login, user: value }) }} />
                             <StyledInput label='Senha' type='password' placeholder='Insira sua senha' onChangeText={(value) => { setLogin({ ...login, pass: value }) }} />
+                            {message && <Text bold style={{ color: 'red' }}>{message}</Text>}
                             <StyledCheckBox options={keepLoginOption} selectedOption={keepLogin} setSelectedOptions={setKeepLogin} />
                         </View>
 
                         <View style={styles.buttonsContainer}>
                             <StyledButton
                                 text='Entrar'
-                                className='bg-sky-600'
                                 onClick={handleLogin}
-                                isLoading={isLoading} />
+                                isLoading={isLoading}
+                                textColor='white' />
 
-                            <Link href='https://www.gluestack.io.com'>
-                                <LinkText onPress={() => { router.navigate('auth/forgotPass') }}>Esqueceu sua senha?</LinkText>
-                            </Link>
+                            <LinkText onPress={() => { router.navigate('auth/forgotPass') }}>Esqueceu sua senha?</LinkText>
                         </View>
                     </>
             }

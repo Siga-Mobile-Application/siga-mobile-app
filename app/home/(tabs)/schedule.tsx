@@ -13,35 +13,40 @@ import { HStack } from "@/components/ui/hstack";
 import { VStack } from "@/components/ui/vstack";
 import { Badge, BadgeText } from "@/components/ui/badge";
 import StyledAccordion from "@/components/styled-accordion";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { loadGlobaData } from "@/helper/loadData";
 
 export default function Schedule() {
     const [data, setData] = useState<ScheduleProps[]>([]);
     const [loading, setLoading] = useState(true);
 
     const { reload } = useContext(HelperContext);
-    const { getAuth } = useContext(AuthContext);
+    const { getAuth, isConnected } = useContext(AuthContext);
 
     const isFocused = useIsFocused();
 
-    function loadData() {
+    async function loadData() {
         setLoading(true);
+        
+        await loadGlobaData({ getAuth, setData, type: 'schedule' }).finally(() => { setLoading(false); });
+    }
 
-        getAuth().then((res) => {
-            api.get('/data/schedule', { headers: { authorization: res } })
-                .then((response) => {
-                    setData(response.data.data);
-                })
-                .catch((e) => {
-                    ToastAndroid.showWithGravity('Problema com o servidor, tente novamente mais tarde', ToastAndroid.SHORT, ToastAndroid.TOP);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        });
+    async function loadLocalData() {
+        await AsyncStorage.getItem('schedule')
+            .then((res) => {
+                if (res) {
+                    setData(JSON.parse(res));
+                } else {
+                    loadData();
+                }
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     }
 
     useEffect(() => {
-        loadData();
+        loadLocalData();
     }, []);
 
     useEffect(() => {
@@ -61,8 +66,8 @@ export default function Schedule() {
 
                         !data ?
 
-                            <View className='w-full h-full justify-center'>
-                                <Text>Não foi possível resgatar os dados</Text>
+                            <View className='w-full h-full justify-center align-center'>
+                                <Text>{isConnected ? 'Não foi possível resgatar os dados' : 'Sem conexão com a internet'}</Text>
                             </View>
 
                             :

@@ -1,12 +1,15 @@
 import ButtonReload from '@/components/reload-button';
 import Logout from '@/components/profile-tab/logout';
-import HelperContext, { HelperProvider } from '@/contexts/helper';
+import { HelperProvider } from '@/contexts/helper';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
 import React, { useContext } from 'react';
+import AuthContext from '@/contexts/auth';
+import { Badge, BadgeIcon, BadgeText } from '@/components/ui/badge';
+import { GlobeIcon } from '@/components/ui/icon';
 
 export default function Layout() {
-  const { useReload } = useContext(HelperContext);
+  const { isConnected } = useContext(AuthContext);
 
   return (
     <HelperProvider>
@@ -14,7 +17,7 @@ export default function Layout() {
         screenOptions={{
           tabBarInactiveTintColor: 'white',
           tabBarActiveTintColor: '#97D3FA',
-          headerRight: () => <ButtonReload />,
+          headerRight: () => <>{isConnected ? <ButtonReload /> : <Badge action='error'><BadgeIcon as={GlobeIcon} /><BadgeText>Sem conexão com a internet</BadgeText></Badge>}</>,
           tabBarStyle: { backgroundColor: 'black' },
         }}>
         <Tabs.Screen
