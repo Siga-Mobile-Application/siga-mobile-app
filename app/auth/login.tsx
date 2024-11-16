@@ -9,6 +9,7 @@ import StyledTitle from '@/components/styled-title';
 import StyledCheckBox from '@/components/styled-checkbox';
 import Loading from '@/components/loading';
 import { Text } from '@/components/ui/text';
+import CustomToast from '@/components/custom-toast';
 
 export default function Login() {
     const [login, setLogin] = useState({ user: '', pass: '' });
@@ -25,6 +26,7 @@ export default function Login() {
         if (!login.user || !login.pass) { return setMessage('* Preencha todos os campos *'); }
 
         setIsLoading(true);
+
 
         signIn(login.user, login.pass, keepLogin.includes(keepLoginOption[0]) ? true : false)
             .then((res) => { if (res) setMessage(res); })

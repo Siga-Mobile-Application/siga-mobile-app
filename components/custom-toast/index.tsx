@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Toast, ToastTitle, useToast } from "../ui/toast";
 
-export default function showNewToast() {
+export default function CustomToast() {
     const [toastId, setToastId] = useState(0);
     const toast = useToast();
     const newId = Math.random();

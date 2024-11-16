@@ -87,47 +87,45 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     async function verifyKeepLogin() {
-        verifyConnection().then(async (conn) => {
-            await AsyncStorage.getItem('keepLogin').then(async (res) => {
-                if (res == 'true') {
-                    if (conn) {
-                        await SecureStore.getItemAsync('authorization')
-                            .then(async (authorization) => {
-                                if (authorization) {
-                                    await api.get('/data', { headers: { authorization } }).then(res => {
-                                        setUser(res.data);
-                                        router.replace('/home');
-                                    }).catch(e => {
-                                        if (!e.status) {
-                                            ToastAndroid.showWithGravity('Problema com o servidor, tente novamente mais tarde', ToastAndroid.SHORT, ToastAndroid.TOP);
-                                        } else {
-                                            ToastAndroid.showWithGravity(e.response.data.error, ToastAndroid.SHORT, ToastAndroid.TOP);
+        await AsyncStorage.getItem('keepLogin').then(async (res) => {
+            if (res == 'true') {
+                await LocalAuthentication.authenticateAsync().then(async (res) => {
+                    if (res.success) {
+                        await verifyConnection().then(async (conn) => {
+                            if (conn) {
+                                await SecureStore.getItemAsync('authorization')
+                                    .then(async (authorization) => {
+                                        if (authorization) {
+                                            await api.get('/data', { headers: { authorization } }).then(res => {
+                                                setUser(res.data);
+                                                router.replace('/home');
+                                            }).catch(e => {
+                                                if (!e.status) {
+                                                    ToastAndroid.showWithGravity('Problema com o servidor, tente novamente mais tarde', ToastAndroid.SHORT, ToastAndroid.TOP);
+                                                } else {
+                                                    ToastAndroid.showWithGravity(e.response.data.error, ToastAndroid.SHORT, ToastAndroid.TOP);
+                                                }
+                                            });
                                         }
-                                    });
-                                }
-                            }).catch(() => { });
-                    } else {
-                        LocalAuthentication.authenticateAsync().then(async (res) => {
-                            if (res.success) {
+                                    }).catch(() => { });
+                            } else {
                                 const user = await SecureStore.getItemAsync('user');
 
                                 if (user) {
                                     setUser(JSON.parse(user));
                                     router.replace('/home');
                                 }
-                            } else {
-                                removeKeys();
                             }
-                        })
+                        });
+                    } else {
+                        removeKeys();
                     }
-                } else {
-                    removeKeys();
-                    await SecureStore.deleteItemAsync('authorization');
-                }
-            })
+                });
+            } else {
+                removeKeys();
+                await SecureStore.deleteItemAsync('authorization');
+            }
         });
-
-        return Promise.resolve();
     }
 
     async function getAuth() {
