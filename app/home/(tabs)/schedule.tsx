@@ -1,14 +1,11 @@
 import Calendar from "@/components/calendar";
 import Loading from "@/components/loading";
 import AuthContext from "@/contexts/auth";
-import FilterContext from "@/contexts/helper";
-import api from "@/helper/axios";
 import { ScheduleProps } from "@/interfaces/schedule";
 import { useContext, useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, ToastAndroid, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useIsFocused } from '@react-navigation/native';
-import HelperContext from "@/contexts/helper";
-import ButtonReload from "@/components/reload-button";
+import HelperContext from "@/contexts/assistant";
 import { HStack } from "@/components/ui/hstack";
 import { VStack } from "@/components/ui/vstack";
 import { Badge, BadgeText } from "@/components/ui/badge";
@@ -27,7 +24,7 @@ export default function Schedule() {
 
     async function loadData() {
         setLoading(true);
-        
+
         await loadGlobaData({ getAuth, setData, type: 'schedule' }).finally(() => { setLoading(false); });
     }
 
@@ -36,12 +33,10 @@ export default function Schedule() {
             .then((res) => {
                 if (res) {
                     setData(JSON.parse(res));
+                    setLoading(false);
                 } else {
                     loadData();
                 }
-            })
-            .finally(() => {
-                setLoading(false);
             });
     }
 

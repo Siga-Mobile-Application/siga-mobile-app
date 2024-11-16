@@ -1,5 +1,5 @@
 import { Image, StyleSheet, View } from 'react-native';
-import { Link, LinkText } from '@/components/ui/link';
+import { LinkText } from '@/components/ui/link';
 import StyledInput from '@/components/styled-input';
 import StyledButton from '@/components/styled-button';
 import { router } from 'expo-router';
@@ -9,7 +9,6 @@ import StyledTitle from '@/components/styled-title';
 import StyledCheckBox from '@/components/styled-checkbox';
 import Loading from '@/components/loading';
 import { Text } from '@/components/ui/text';
-import CustomToast from '@/components/custom-toast';
 
 export default function Login() {
     const [login, setLogin] = useState({ user: '', pass: '' });
@@ -39,7 +38,7 @@ export default function Login() {
     }, []);
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container} className='w-full h-full'>
             {
                 loading ?
                     <Loading />
@@ -64,7 +63,7 @@ export default function Login() {
                                 isLoading={isLoading}
                                 textColor='white' />
 
-                            <LinkText onPress={() => { router.navigate('auth/forgotPass') }}>Esqueceu sua senha?</LinkText>
+                            <LinkText onPress={() => { router.navigate('auth/forgotPass'); }}>Esqueceu sua senha?</LinkText>
                         </View>
                     </>
             }
@@ -81,14 +80,16 @@ const styles = StyleSheet.create({
     },
     header: {
         flex: 1,
+        paddingBottom: 10,
+        rowGap: 20,
         justifyContent: 'flex-end',
         alignItems: 'center'
     },
     buttonsContainer: {
         flex: 1,
-        justifyContent: 'space-around',
+        justifyContent: 'space-evenly',
         paddingHorizontal: 50,
-        paddingBottom: 20
+        paddingBottom: 30
     },
     inputContainer: {
         flex: 1,
