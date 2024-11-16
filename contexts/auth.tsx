@@ -81,8 +81,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     async function verifyConnection() {
         return await NetInfo.fetch().then(async state => {
-            setIsConnected(!state.isInternetReachable!)
-            return !state.isInternetReachable;
+            setIsConnected(state.isInternetReachable!)
+            return state.isInternetReachable;
         });
     }
 
