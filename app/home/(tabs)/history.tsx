@@ -9,35 +9,39 @@ import { Text } from "react-native";
 import { View, StyleSheet, ToastAndroid } from "react-native";
 import { useIsFocused } from '@react-navigation/native';
 import ButtonReload from "@/components/reload-button";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { loadGlobaData } from "@/helper/loadData";
 
 export default function History() {
     const [data, setData] = useState<DisciplineHistoryProps[]>([]);
     const [loading, setLoading] = useState(true);
 
     const { reload } = useContext(HelperContext);
-    const { getAuth } = useContext(AuthContext);
+    const { getAuth, isConnected } = useContext(AuthContext);
 
     const isFocused = useIsFocused();
 
-    function loadData() {
+    async function loadData() {
         setLoading(true);
 
-        getAuth().then((res) => {
-            api.get('/data/history', { headers: { authorization: res } })
-                .then((response) => {
-                    setData(response.data.data);
-                })
-                .catch((e) => {
-                    ToastAndroid.showWithGravity('Problema com o servidor, tente novamente mais tarde', ToastAndroid.SHORT, ToastAndroid.TOP);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        });
+        await loadGlobaData({ getAuth, setData, type: 'history' }).finally(() => { setLoading(false); });
     }
 
+    async function loadLocalData() {
+        await AsyncStorage.getItem('history')
+            .then((res) => {
+                if (res) {
+                    setData(JSON.parse(res));
+                    setLoading(false);
+                } else {
+                    loadData();
+                }
+            });
+    }
+
+
     useEffect(() => {
-        loadData();
+        loadLocalData();
     }, []);
 
     useEffect(() => {
@@ -56,8 +60,8 @@ export default function History() {
 
                     !data.length ?
 
-                        <View className='w-full h-full justify-center'>
-                            <Text>Não foi possível resgatar os dados</Text>
+                        <View className='w-full h-full justify-center align-center'>
+                            <Text>{isConnected ? 'Não foi possível resgatar os dados' : 'Sem conexão com a internet'}</Text>
                         </View>
 
                         :
