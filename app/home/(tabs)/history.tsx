@@ -1,14 +1,12 @@
 import HistoryData from "@/components/history";
 import Loading from "@/components/loading";
 import AuthContext from "@/contexts/auth";
-import HelperContext from "@/contexts/helper";
-import api from "@/helper/axios";
+import HelperContext from "@/contexts/assistant";
 import { DisciplineHistoryProps } from "@/interfaces/history";
 import { useContext, useEffect, useState } from "react";
 import { Text } from "react-native";
-import { View, StyleSheet, ToastAndroid } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useIsFocused } from '@react-navigation/native';
-import ButtonReload from "@/components/reload-button";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { loadGlobaData } from "@/helper/loadData";
 

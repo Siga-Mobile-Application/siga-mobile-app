@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import StyledButton from "../styled-button";
-import HelperContext from "@/contexts/helper";
+import HelperContext from "@/contexts/assistant";
 
 
 export default function ButtonReload() {

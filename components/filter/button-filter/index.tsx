@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import StyledButton from "../../styled-button";
-import FilterContext from "@/contexts/helper";
+import FilterContext from "@/contexts/assistant";
 
 export default function ButtonFilter() {
     const [isOpen, setOpenFilter] = useState(false);

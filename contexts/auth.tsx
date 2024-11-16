@@ -1,12 +1,12 @@
 import api from "@/helper/axios";
-import React, { createContext, ReactNode, useState } from "react";
+import React, { createContext, ReactNode, useContext, useState } from "react";
 import { Buffer } from "buffer";
 import * as SecureStore from 'expo-secure-store';
-import { ToastAndroid } from "react-native";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from '@react-native-community/netinfo';
 import * as LocalAuthentication from 'expo-local-authentication';
+import HelperContext from "./assistant";
 
 interface AuthProviderProps {
     children: ReactNode
@@ -28,7 +28,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<StudentInfoProps>({} as StudentInfoProps);
     const [isConnected, setIsConnected] = useState(false);
 
+    const { showToast, closeToast } = useContext(HelperContext);
+
     async function signIn(login: string, pass: string, keepLogin?: boolean, auth?: string) {
+        let toastNumb;
+
+        toastNumb = showToast({ title: 'Acessando conta...', action: 'info' });
+
         return await verifyConnection().then(async (con) => {
             if (con) {
                 let message = '';
@@ -41,24 +47,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                         await AsyncStorage.setItem('keepLogin', 'true');
                         await SecureStore.setItemAsync('user', JSON.stringify(res.data));
                     }
-
                     setUser(res.data);
                     router.replace('/home');
                 }).catch(async e => {
+                    closeToast(toastNumb);
                     if (!e.status) {
-                        ToastAndroid.showWithGravity('Problema com o servidor, tente novamente mais tarde', ToastAndroid.SHORT, ToastAndroid.TOP);
+                        showToast({ title: 'Problema com o servidor', message: 'Tente novamente mais tarde', action: 'error' });
                     } else {
                         if (e.response.data.error.indexOf('Login e Senha')) {
                             message = e.response.data.error;
                         } else {
-                            ToastAndroid.showWithGravity(e.response.data.error, ToastAndroid.SHORT, ToastAndroid.TOP);
+                            showToast({ title: 'Erro', message: e.response.data.error, action: 'error' });
                         }
                     }
                 });
 
                 return message;
             } else {
-                ToastAndroid.showWithGravity("Sem conexão com a internet", ToastAndroid.SHORT, ToastAndroid.TOP);
+                showToast({ title: 'Sem conexão com a internet', action: 'info' });
                 return '';
             }
         });
@@ -71,10 +77,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     async function signOut() {
-        removeKeys();
+        await removeKeys();
         await SecureStore.deleteItemAsync('authorization').finally(() => {
             router.replace('/');
-            ToastAndroid.showWithGravity('Você saiu com sucesso!', ToastAndroid.SHORT, ToastAndroid.TOP);
+            showToast({ title: 'Você saiu da sua conta', action: 'info' });
             return Promise.resolve();
         });
     }
@@ -91,6 +97,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             if (res == 'true') {
                 await LocalAuthentication.authenticateAsync().then(async (res) => {
                     if (res.success) {
+                        showToast({ title: 'Acessando conta...', action: 'success' });
                         await verifyConnection().then(async (conn) => {
                             if (conn) {
                                 await SecureStore.getItemAsync('authorization')
@@ -101,9 +108,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                                                 router.replace('/home');
                                             }).catch(e => {
                                                 if (!e.status) {
-                                                    ToastAndroid.showWithGravity('Problema com o servidor, tente novamente mais tarde', ToastAndroid.SHORT, ToastAndroid.TOP);
+                                                    showToast({ title: 'Problema com o servidor', message: 'Tente novamente mais tarde', action: 'error' });
                                                 } else {
-                                                    ToastAndroid.showWithGravity(e.response.data.error, ToastAndroid.SHORT, ToastAndroid.TOP);
+                                                    showToast({ title: 'Erro', message: e.response.data.error, action: 'error' });
                                                 }
                                             });
                                         }
@@ -118,6 +125,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                             }
                         });
                     } else {
+                        showToast({ title: 'Conta desconectada', action: 'info' });
                         removeKeys();
                     }
                 });

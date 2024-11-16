@@ -1,16 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, ToastAndroid, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Text } from '@/components/ui/text';
-import api from '@/helper/axios';
 import AuthContext from '@/contexts/auth';
 import { GradeProps } from '@/interfaces/grade';
 import Loading from '@/components/loading';
-import StyledTitle from '@/components/styled-title';
-import { HStack } from '@/components/ui/hstack';
-import { VStack } from '@/components/ui/vstack';
-import HelperContext from '@/contexts/helper';
+import HelperContext from '@/contexts/assistant';
 import { useIsFocused } from '@react-navigation/native';
-import ButtonReload from '@/components/reload-button';
 import Grades from '@/components/grades';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loadGlobaData } from '@/helper/loadData';
@@ -22,6 +17,7 @@ export default function Control() {
 
     const { reload } = useContext(HelperContext);
     const { getAuth, isConnected } = useContext(AuthContext);
+    const { showToast } = useContext(HelperContext);
 
     const isFocused = useIsFocused();
     const options = [{ name: 'Notas Parciais', id: '2' }, { name: 'Faltas Parciais', id: '3' }];
@@ -29,7 +25,7 @@ export default function Control() {
     async function loadData() {
         setLoading(true);
 
-        await loadGlobaData({ getAuth, setData, type: 'grade' }).finally(() => { setLoading(false); });
+        await loadGlobaData({ getAuth, setData, type: 'grade', showToast }).finally(() => { setLoading(false); });
     };
 
     async function loadLocalData() {
