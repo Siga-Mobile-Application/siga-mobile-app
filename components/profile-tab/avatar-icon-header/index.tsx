@@ -21,7 +21,7 @@ export default function ProfileHeaderIcon({ name, subTitle, image }: AvatarProps
                 <AvatarImage source={{ uri: image }} />
                 <AvatarBadge style={{ backgroundColor: 'transparent', width: 'auto', height: 'auto', borderColor: 'transparent' }}>
                     <TouchableOpacity onPress={() => { router.navigate('../../user/') }}>
-                        <FontAwesome size={28} name="id-card" color={"blue"} style={{ backgroundColor: 'white', borderRadius: 20, padding: 0, margin: 0 }} />
+                        <FontAwesome size={28} name="id-card" color={"blue"} style={{ borderRadius: 20, padding: 0, margin: 0 }} />
                     </TouchableOpacity>
                 </AvatarBadge>
             </Avatar>

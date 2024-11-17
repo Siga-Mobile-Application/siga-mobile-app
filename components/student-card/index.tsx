@@ -1,20 +1,45 @@
-import React from 'react';
+import AuthContext from '@/contexts/auth';
+import React, { useContext } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
+import { Text } from '../ui/text';
+import { VStack } from '../ui/vstack';
+import { HStack } from '../ui/hstack';
 
 export default function StudentCard() {
+    const user = useContext(AuthContext);
+    const date = new Date();
+
     return (
-        <View style={styles.container}>
+        <VStack style={styles.container}>
             <View style={styles.leftSection}>
                 <Image
                     source={require('../../assets/profile/header-student-card.png')}
                     style={styles.logo}
                     resizeMode="contain" />
             </View>
-            <View style={styles.centerContent}>
-                <View style={styles.photoPlaceholder} />
+
+            <VStack style={styles.centerContent}>
+                <View style={styles.containerInfo}>
+                    <Image
+                        source={{ uri: user.user.picture }}
+                        style={styles.userPhoto}
+                        resizeMode="contain" />
+                    <Text bold size='lg' style={{ color: 'black' }}>{user.user.nome}</Text>
+                    <Text bold size='lg' style={{ color: 'black' }}>{user.user.curso}</Text>
+                    <Text bold size='lg' style={{ color: 'black' }}>Periodo: {user.user.periodo}</Text>
+                    <Text bold size='lg' style={{ color: 'black' }}>RA: {user.user.ra}</Text>
+                </View>
+            </VStack>
+
+            <View style={styles.rightSection}>
+                <Text size='lg' bold style={{ color: 'white' }}>
+                    Emissão: {date.toLocaleDateString()}
+                </Text>
+                <Text size='sm' bold style={{ color: 'white' }}>
+                    Este cartão é apenas um informativo de informações, para mais detalhes, acesse siga.cps.sp.gov.br/aluno/login.aspx
+                </Text>
             </View>
-            <View style={styles.rightSection} />
-        </View>
+        </VStack >
     );
 };
 
@@ -22,62 +47,44 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginVertical: '25%',
-        borderRadius: 7,
-        borderWidth: 1,
-        borderColor: 'black',
-        backgroundColor: '#fff',
         justifyContent: 'center',
-        flexDirection: 'row',
+        flexDirection: 'column',
+        borderRadius: 15
     },
     leftSection: {
-        flexGrow: 1,
-        alignContent: 'flex-start',
+        alignContent: 'center',
         backgroundColor: 'white',
     },
     centerContent: {
-        flexGrow: 3,
+        flexGrow: 2,
+        padding: 20,
+        width: '100%',
         backgroundColor: '#e0e0e0',
-        justifyContent: 'center',
     },
     rightSection: {
-        flexGrow: 1,
+        flexShrink: 1,
         backgroundColor: '#990000',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 8,
+        textAlign: 'center',
+        rowGap: 10,
+        padding: 15,
     },
     logo: {
         marginBottom: 8,
         width: '100%',
     },
-    verticalText: {
-        position: 'absolute',
-        fontSize: 16,
-        bottom: 50,
-        right: 30,
-        color: '#333',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        transform: [{ rotate: '-90deg' }],
-    },
-    headerText: {
-        position: 'absolute',
-        fontSize: 14,
-        color: '#990000',
-        fontWeight: 'bold',
-        marginBottom: 4,
-        transform: [{ rotate: '-90deg' }],
-    },
-    subText: {
-        position: 'absolute',
-        fontSize: 12,
-        color: '#333',
-        transform: [{ rotate: '-90deg' }],
-    },
-    photoPlaceholder: {
+    containerInfo: {
         width: '100%',
-        height: 100,
-        borderWidth: 1,
-        borderColor: '#ccc',
+        flex: 1,
+        justifyContent: 'space-between',
+    },
+    userPhoto: {
+        marginTop: 15,
+        marginLeft: 15,
+        height: '50%',
+        borderWidth: 3,
+        borderRadius: 5,
+        aspectRatio: 1,
     },
 });

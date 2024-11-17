@@ -33,7 +33,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     async function signIn(login: string, pass: string, keepLogin?: boolean, auth?: string) {
         let toastNumb;
 
-        toastNumb = showToast({ title: 'Acessando conta...', action: 'info' });
+        toastNumb = showToast({ title: 'Verificando...', action: 'info' });
 
         return await verifyConnection().then(async (con) => {
             if (con) {
@@ -55,6 +55,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                         showToast({ title: 'Problema com o servidor', message: 'Tente novamente mais tarde', action: 'error' });
                     } else {
                         if (e.response.data.error.indexOf('Login e Senha')) {
+                            showToast({title: e.response.data.error, action: 'error'});
                             message = e.response.data.error;
                         } else {
                             showToast({ title: 'Erro', message: e.response.data.error, action: 'error' });
