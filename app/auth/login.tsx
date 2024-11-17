@@ -9,6 +9,7 @@ import StyledTitle from '@/components/styled-title';
 import StyledCheckBox from '@/components/styled-checkbox';
 import Loading from '@/components/loading';
 import { Text } from '@/components/ui/text';
+import HelperContext from '@/contexts/assistant';
 
 export default function Login() {
     const [login, setLogin] = useState({ user: '', pass: '' });
@@ -18,11 +19,14 @@ export default function Login() {
     const [message, setMessage] = useState('');
 
     const { signIn, verifyKeepLogin } = useContext(AuthContext);
+    const { showToast } = useContext(HelperContext);
 
     const keepLoginOption: string[] = ['Continuar conectado?'];
 
     async function handleLogin() {
-        if (!login.user || !login.pass) { return setMessage('* Preencha todos os campos *'); }
+        if (!login.user || !login.pass) { return setMessage('* Preencha todos os campos *'); };
+
+        if (login.user.length < 11) { return showToast({ title: 'Login informado é inválido', action: 'warning' }); };
 
         setIsLoading(true);
 
@@ -49,8 +53,8 @@ export default function Login() {
                         </View>
 
                         <View style={styles.inputContainer}>
-                            <StyledInput label='Login' type='text' placeholder='Insira seu login do SIGA' onChangeText={(value) => { setLogin({ ...login, user: value }) }} />
-                            <StyledInput label='Senha' type='password' placeholder='Insira sua senha' onChangeText={(value) => { setLogin({ ...login, pass: value }) }} />
+                            <StyledInput size='lg' label='Login' type='text' placeholder='Insira seu login do SIGA' onChangeText={(value) => { setLogin({ ...login, user: value }) }} />
+                            <StyledInput size='lg' label='Senha' type='password' placeholder='Insira sua senha' onChangeText={(value) => { setLogin({ ...login, pass: value }) }} />
                             {message && <Text bold style={{ color: 'red' }}>{message}</Text>}
                             <StyledCheckBox options={keepLoginOption} selectedOption={keepLogin} setSelectedOptions={setKeepLogin} />
                         </View>

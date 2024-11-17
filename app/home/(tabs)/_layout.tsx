@@ -1,14 +1,18 @@
 import ButtonReload from '@/components/reload-button';
 import Logout from '@/components/profile-tab/logout';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Tabs } from 'expo-router';
-import React, { useContext } from 'react';
+import { router, Tabs } from 'expo-router';
+import React, { useContext, useEffect } from 'react';
 import AuthContext from '@/contexts/auth';
 import { Badge, BadgeIcon, BadgeText } from '@/components/ui/badge';
 import { GlobeIcon } from '@/components/ui/icon';
 
 export default function Layout() {
-  const { isConnected } = useContext(AuthContext);
+  const { isConnected, user } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (!user.nome) { return router.replace('../../auth/login') }
+  }, []);
 
   return (
     <Tabs initialRouteName='profile'
