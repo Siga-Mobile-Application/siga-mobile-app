@@ -1,10 +1,11 @@
 import { StyleSheet } from "react-native";
-import { Input, InputField } from "../ui/input";
+import { Input, InputField, InputIcon, InputSlot } from "../ui/input";
 import { VStack } from "../ui/vstack";
 import { Select, SelectBackdrop, SelectContent, SelectDragIndicator, SelectDragIndicatorWrapper, SelectIcon, SelectInput, SelectItem, SelectPortal, SelectTrigger } from "../ui/select";
-import { ChevronDownIcon } from "../ui/icon";
+import { ChevronDownIcon, EyeIcon, EyeOffIcon } from "../ui/icon";
 import { Textarea, TextareaInput } from "../ui/textarea";
 import StyledFormControl from "../styled-form-control";
+import { useState } from "react";
 
 interface StyledInputProps {
     label?: string
@@ -21,6 +22,8 @@ interface StyledInputProps {
 }
 
 export default function StyledInput({ label, helper, placeholder, type, options, className, onChangeText, onClick, defaultValue, isRead, size }: StyledInputProps) {
+    const [showPass, setShowPass] = useState(false);
+
     return (
         <VStack space="xs">
             <StyledFormControl label={label} helper={helper}>
@@ -30,10 +33,18 @@ export default function StyledInput({ label, helper, placeholder, type, options,
                         <Input isReadOnly={isRead} style={[styles.input]} className={className} size={size}>
                             <InputField
                                 size={size}
-                                type={(type == 'text' || type == 'password') ? type : 'text'}
+                                type={type == 'password' && !showPass ? 'password' : 'text'}
                                 placeholder={placeholder}
                                 defaultValue={defaultValue}
-                                onChangeText={onChangeText} />
+                                onChangeText={onChangeText}
+                                caretHidden
+                            />
+                            {
+                                type == 'password' &&
+                                <InputSlot className="mr-4" onPress={() => { setShowPass(!showPass); }}>
+                                    <InputIcon size={size} as={showPass ? EyeIcon : EyeOffIcon} />
+                                </InputSlot>
+                            }
                         </Input>
 
                         :
