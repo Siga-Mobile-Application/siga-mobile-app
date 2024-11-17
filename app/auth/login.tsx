@@ -26,7 +26,6 @@ export default function Login() {
 
         setIsLoading(true);
 
-
         signIn(login.user, login.pass, keepLogin.includes(keepLoginOption[0]) ? true : false)
             .then((res) => { if (res) setMessage(res); })
             .finally(() => setIsLoading(false));
