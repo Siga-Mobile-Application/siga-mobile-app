@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
                 await SecureStore.setItemAsync('authorization', authorization);
 
-                await api.get('/data', { headers: { authorization } }).then(async (res) => {
+                await api.get('/data/basic', { headers: { authorization } }).then(async (res) => {
                     if (keepLogin) {
                         await AsyncStorage.setItem('keepLogin', 'true');
                         await SecureStore.setItemAsync('user', JSON.stringify(res.data));
