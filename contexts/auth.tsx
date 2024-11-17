@@ -103,7 +103,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                                 await SecureStore.getItemAsync('authorization')
                                     .then(async (authorization) => {
                                         if (authorization) {
-                                            await api.get('/data', { headers: { authorization } }).then(res => {
+                                            await api.get('/data/basic', { headers: { authorization } }).then(res => {
                                                 setUser(res.data);
                                                 router.replace('/home');
                                             }).catch(e => {

@@ -19,13 +19,14 @@ export default function Schedule() {
 
     const { reload } = useContext(HelperContext);
     const { getAuth, isConnected } = useContext(AuthContext);
+    const { showToast } = useContext(HelperContext);
 
     const isFocused = useIsFocused();
 
     async function loadData() {
         setLoading(true);
 
-        await loadGlobaData({ getAuth, setData, type: 'schedule' }).finally(() => { setLoading(false); });
+        await loadGlobaData({ getAuth, setData, type: 'schedule', showToast }).finally(() => { setLoading(false); });
     }
 
     async function loadLocalData() {
@@ -45,7 +46,7 @@ export default function Schedule() {
     }, []);
 
     useEffect(() => {
-        if (isFocused) {
+        if (isFocused && !loading) {
             loadData();
         }
     }, [reload]);
