@@ -1,7 +1,6 @@
 import StyledButton from '@/components/styled-button';
 import StyledInput from '@/components/styled-input';
 import StyledTitle from '@/components/styled-title';
-import { Heading } from '@/components/ui/heading';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Image, StyleSheet, View } from 'react-native';

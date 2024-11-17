@@ -45,7 +45,7 @@ export default function Control() {
     }, []);
 
     useEffect(() => {
-        if (isFocused) {
+        if (isFocused && !loading) {
             loadData();
         }
     }, [reload]);
