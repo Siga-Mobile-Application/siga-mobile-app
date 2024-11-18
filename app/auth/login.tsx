@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { LinkText } from '@/components/ui/link';
 import StyledInput from '@/components/styled-input';
 import StyledButton from '@/components/styled-button';
@@ -10,6 +10,7 @@ import StyledCheckBox from '@/components/styled-checkbox';
 import Loading from '@/components/loading';
 import { Text } from '@/components/ui/text';
 import HelperContext from '@/contexts/assistant';
+import { Image } from '@/components/ui/image';
 
 export default function Login() {
     const [login, setLogin] = useState({ user: '', pass: '' });
@@ -48,7 +49,7 @@ export default function Login() {
                     :
                     <>
                         <View style={styles.header}>
-                            <Image source={require('@/assets/logo/Logo.png')} alt="Logo Siga" />
+                            <Image source={require('@/assets/logo/Logo1.png')} size="2xl" resizeMode='center' alt="Logo Siga" />
                             <StyledTitle text='Faça login em sua conta' />
                         </View>
 
@@ -83,8 +84,6 @@ const styles = StyleSheet.create({
     },
     header: {
         flex: 1,
-        paddingBottom: 10,
-        rowGap: 20,
         justifyContent: 'flex-end',
         alignItems: 'center'
     },

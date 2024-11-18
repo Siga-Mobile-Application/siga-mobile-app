@@ -4,7 +4,7 @@
     "slug": "siga-mobile-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo/Logo.png",
+    "icon": "./assets/logo/app-icon.png",
     "userInterfaceStyle": "light",
     "scheme": "siga-mobile-app",
     "newArchEnabled": true,
@@ -18,8 +18,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/logo/app-icon.png"
       },
       "package": "com.carlos.fiori44.sigamobileapp"
     },

@@ -2,11 +2,12 @@ import StyledButton from '@/components/styled-button';
 import StyledTitle from '@/components/styled-title';
 import { Button } from '@/components/ui/button';
 import { ArrowDownIcon, Icon } from '@/components/ui/icon';
+import { Image } from '@/components/ui/image';
 import { Link } from '@/components/ui/link';
 import { Text } from '@/components/ui/text';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 export default function ForgotPass() {
     const [isLoading, setLoading] = useState(false);
@@ -14,7 +15,7 @@ export default function ForgotPass() {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Image source={require('@/assets/logo/Logo.png')} alt="Logo Siga" />
+                <Image source={require('@/assets/logo/Logo1.png')} size="2xl" resizeMode='center' alt="Logo Siga" />
                 <StyledTitle><StyledTitle color='red'>Problemas</StyledTitle> com sua senha?</StyledTitle>
             </View>
 
