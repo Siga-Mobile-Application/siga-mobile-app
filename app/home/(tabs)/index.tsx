@@ -25,7 +25,7 @@ export default function Home() {
                         <View style={{ columnGap: 20, flex: 1, alignItems: 'center' }}>
                             <VStack className='flex-1 justify-center'>
                                 <StyledTitle size='3xl'>{"Seja\nbem-vindo\nao"}</StyledTitle>
-                                <Image source={logoUrl} size='lg' resizeMode='contain' alt='Imagem da logo do aplicativo, na qual forma o nome SIGA' />
+                                <Image source={require('@/assets/logo/Logo1.png')} size="lg" resizeMode='center' alt="Logo Siga" />
                             </VStack>
 
                             <View className='my-6 p-6 flex-1'>
@@ -89,7 +89,7 @@ export default function Home() {
                                                         header: 'Horários 📆',
                                                         content:
                                                             <Text bold>
-                                                                Aqui em horários é possível visualziar o calendário das disciplinas programadas durante a semana,
+                                                                Aqui em horários é possível visualizar o calendário das disciplinas programadas durante a semana,
                                                                 mostrando o tempo que cada uma tem,
                                                                 além de fornecer qual a turma o aluno está cadastrado
                                                             </Text>
