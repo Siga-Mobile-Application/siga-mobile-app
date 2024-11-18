@@ -1,14 +1,5 @@
 name: preview
-
-on:
-  workflow_call:
-    inputs:
-      environment:
-        type: string
-        required: true
-      expo_token:
-        type: string
-        required: true
+on: pull_request
 
 jobs:
   update:
