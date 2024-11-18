@@ -53,10 +53,10 @@ export default function Login() {
                         </View>
 
                         <View style={styles.inputContainer}>
-                            <StyledInput size='lg' label='Login' type='text' placeholder='Insira seu login do SIGA' onChangeText={(value) => { setLogin({ ...login, user: value }) }} />
-                            <StyledInput size='lg' label='Senha' type='password' placeholder='Insira sua senha' onChangeText={(value) => { setLogin({ ...login, pass: value }) }} />
+                            <StyledInput disable={isLoading} size='lg' label='Login' type='text' placeholder='Insira seu login do SIGA' onChangeText={(value) => { setLogin({ ...login, user: value }) }} />
+                            <StyledInput disable={isLoading} size='lg' label='Senha' type='password' placeholder='Insira sua senha' onChangeText={(value) => { setLogin({ ...login, pass: value }) }} />
                             {message && <Text bold style={{ color: 'red' }}>{message}</Text>}
-                            <StyledCheckBox options={keepLoginOption} selectedOption={keepLogin} setSelectedOptions={setKeepLogin} />
+                            <StyledCheckBox disable={isLoading} options={keepLoginOption} selectedOption={keepLogin} setSelectedOptions={setKeepLogin} />
                         </View>
 
                         <View style={styles.buttonsContainer}>
@@ -66,7 +66,7 @@ export default function Login() {
                                 isLoading={isLoading}
                                 textColor='white' />
 
-                            <LinkText onPress={() => { router.navigate('auth/forgotPass'); }}>Esqueceu sua senha?</LinkText>
+                            <LinkText disabled={isLoading} onPress={() => { router.navigate('auth/forgotPass'); }}>Esqueceu sua senha?</LinkText>
                         </View>
                     </>
             }

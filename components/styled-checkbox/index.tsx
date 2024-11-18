@@ -5,11 +5,12 @@ interface StyledCheckBoxProps {
     options: string[]
     setSelectedOptions: (option: string[]) => void
     selectedOption: string[]
+    disable?: boolean
 }
 
-export default function StyledCheckBox({ options, selectedOption, setSelectedOptions }: StyledCheckBoxProps) {
+export default function StyledCheckBox({ options, selectedOption, setSelectedOptions, disable }: StyledCheckBoxProps) {
     return (
-        <CheckboxGroup value={selectedOption} onChange={setSelectedOptions}>
+        <CheckboxGroup isDisabled={disable ? disable : false} value={selectedOption} onChange={setSelectedOptions}>
             {
                 options.map((option) => (
                     <Checkbox size="md" isInvalid={false} isDisabled={false} value={option} key={option}>
