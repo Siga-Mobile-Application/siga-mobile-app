@@ -65,6 +65,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
                 return message;
             } else {
+                closeToast(toastNumb);
                 showToast({ title: 'Sem conexão com a internet', action: 'info' });
                 return '';
             }
@@ -88,8 +89,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     async function verifyConnection() {
         return await NetInfo.fetch().then(async state => {
-            setIsConnected(!state.isInternetReachable!)
-            return !state.isInternetReachable;
+            setIsConnected(state.isInternetReachable!)
+            return state.isInternetReachable;
         });
     }
 
