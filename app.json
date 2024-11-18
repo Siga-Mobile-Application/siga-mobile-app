@@ -4,7 +4,7 @@
     "slug": "siga-mobile-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo/Logo.png",
     "userInterfaceStyle": "light",
     "scheme": "siga-mobile-app",
     "newArchEnabled": true,
