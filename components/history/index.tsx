@@ -1,6 +1,6 @@
 import { DisciplineHistoryProps } from "@/interfaces/history"
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { Badge } from "../ui/badge";
+import { Badge, BadgeText } from "../ui/badge";
 import { HStack } from "../ui/hstack";
 import StyledAccordion from "../styled-accordion";
 
@@ -22,19 +22,19 @@ export default function HistoryData({ disciplines }: HistoryDataProps) {
                         <Text style={styles.sigla}>{item.disciplina}</Text>
                         <HStack className="items-center">
                             <Text className="mr-5" style={styles.disciplina}>{item.sigla}</Text>
-                            <Text>
-                                <Badge
-                                    action={
-                                        item.aprovado.match('Aprovado') || item.observacao.match("Aproveitamento") || item.observacao.match("Proficiência") || item.observacao == "Aprovado" ?
-                                            'success' : item.aprovado.match('Em curso') ?
-                                                'info' : item.aprovado.match('Reprovado') ?
-                                                    'error' : 'info'}
-                                    size="sm"
-                                    variant="outline">
-                                    <Text>{item.observacao.match("Aproveitamento") || item.observacao.match("Proficiência") || item.observacao == "Aprovado" ?
-                                        item.observacao : item.aprovado}</Text>
-                                </Badge>
-                            </Text>
+                            <Badge
+                                action={
+                                    item.aprovado.match('Aprovado') || item.observacao.match("Aproveitamento") || item.observacao.match("Proficiência") || item.observacao == "Aprovado" ?
+                                        'success' : item.aprovado.match('Em curso') ?
+                                            'info' : item.aprovado.match('Reprovado') ?
+                                                'error' : 'info'}
+                                size="sm"
+                                variant="outline">
+                                <BadgeText>
+                                    {item.observacao.match("Aproveitamento") || item.observacao.match("Proficiência") || item.observacao == "Aprovado" ?
+                                        item.observacao : item.aprovado}
+                                </BadgeText>
+                            </Badge>
                         </HStack>
                     </View>
                     <Text>Período: {item.periodo}</Text>

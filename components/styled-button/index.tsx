@@ -7,19 +7,25 @@ interface StyledButtonProps {
     color?: string
     onClick: () => void
     isLoading?: boolean
-    icon?: any
+    leftIcon?: any
+    rightIcon?: any
     iconStroke?: string
     customIcon?: any
     className?: string
 }
 
-export default function StyledButton({ text, onClick, color, textColor, isLoading, icon, className, customIcon, iconStroke }: StyledButtonProps) {
+export default function StyledButton({ text, onClick, color, textColor, isLoading, leftIcon, rightIcon, className, customIcon, iconStroke }: StyledButtonProps) {
     return (
         <Button
             className={className}
-            style={[style.button, { backgroundColor: color ? color : icon || customIcon ? "transparent" : "black" }]}
+            style={[style.button, { backgroundColor: color ? color : leftIcon || rightIcon || customIcon ? "transparent" : "black" }]}
             onPress={onClick}
             isDisabled={isLoading}>
+            {
+                leftIcon &&
+                <ButtonIcon className="p-0 m-0"><Icon as={leftIcon} size="lg" stroke={iconStroke} /></ButtonIcon>
+            }
+
             {
                 isLoading ?
                     <ButtonSpinner color={textColor ? textColor : "white"} />
@@ -31,8 +37,8 @@ export default function StyledButton({ text, onClick, color, textColor, isLoadin
                 customIcon
             }
             {
-                icon &&
-                <ButtonIcon className="p-0 m-0"><Icon as={icon} size="lg" stroke={iconStroke} /></ButtonIcon>
+                rightIcon &&
+                <ButtonIcon className="p-0 m-0"><Icon as={rightIcon} size="lg" stroke={iconStroke} /></ButtonIcon>
             }
         </Button>
     )

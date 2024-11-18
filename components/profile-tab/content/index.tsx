@@ -18,12 +18,12 @@ export default function ProfileContent() {
                 <HStack style={styles.contentContainer}>
                     <Card variant="ghost" size="sm">
                         <Heading size="sm">Percentual de progressão</Heading>
-                        <Text>{user.pp}</Text>
+                        <Text size="2xl" bold>{user.pp}</Text>
                     </Card>
 
                     <Card variant="ghost" size="sm">
                         <Heading size="sm">Percentual de rendimento</Heading>
-                        <Text>{user.pr}</Text>
+                        <Text size="2xl" bold>{user.pr}</Text>
                     </Card>
                 </HStack>
             </VStack>
@@ -33,15 +33,15 @@ export default function ProfileContent() {
                 <HStack style={styles.contentContainer}>
                     <Card variant="ghost" size="sm">
                         <Heading size="sm">Semestres cursados</Heading>
-                        <Text>{user.semestre_cursado}</Text>
+                        <Text size="2xl" bold>{user.semestre_cursado}</Text>
                     </Card>
                     <Card variant="ghost" size="sm">
                         <Heading size="sm">Semestres restantes</Heading>
-                        <Text>{user.semestre_restante}</Text>
+                        <Text size="2xl" bold>{user.semestre_restante}</Text>
                     </Card>
                     <Card variant="ghost" size="sm">
                         <Heading size="sm">Semestres máximo para completar o curso</Heading>
-                        <Text>{user.semestre_maximo}</Text>
+                        <Text size="2xl" bold>{user.semestre_maximo}</Text>
                     </Card>
 
                 </HStack>
@@ -55,6 +55,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        width: '100%'
+        width: '100%',
+        alignContent: 'center',
+        justifyContent: 'space-between'
     },
 })
