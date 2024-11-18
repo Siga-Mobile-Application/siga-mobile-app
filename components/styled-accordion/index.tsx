@@ -8,9 +8,10 @@ import StyledTitle from "../styled-title";
 interface AccordionProps {
     items: { header: string, content: ReactNode | string }[]
     size: 'lg' | '2xl'
+    color?: string
 }
 
-export default function StyledAccordion({ items, size }: AccordionProps) {
+export default function StyledAccordion({ items, size, color }: AccordionProps) {
     return (
         <Accordion
             size="lg"
@@ -22,7 +23,7 @@ export default function StyledAccordion({ items, size }: AccordionProps) {
             style={{ columnGap: 10, paddingHorizontal: 3 }}>
             {
                 items.map(item => (
-                    <AccordionItem key={item.header} value={item.header} className="bg-cyan-50">
+                    <AccordionItem key={item.header} value={item.header} className={color ? color : "bg-cyan-50"}>
                         <AccordionHeader>
                             <AccordionTrigger>
                                 {({ isExpanded }) => {

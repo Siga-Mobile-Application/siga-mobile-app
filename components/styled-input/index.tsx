@@ -37,7 +37,6 @@ export default function StyledInput({ label, helper, placeholder, type, options,
                                 placeholder={placeholder}
                                 defaultValue={defaultValue}
                                 onChangeText={onChangeText}
-                                caretHidden
                             />
                             {
                                 type == 'password' &&
