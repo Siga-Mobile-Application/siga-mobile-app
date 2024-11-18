@@ -1,17 +1,17 @@
-name: "Dev Deploy"
+# name: "Dev Deploy"
 
-on:
-    push:
-        branches-ignore:
-            - 'main'
-            - 'qual'
+# on:
+#     push:
+#         branches-ignore:
+#             - 'main'
+#             - 'qual'
 
-permissions:
-  id-token: write
-  contents: read
+# permissions:
+#   id-token: write
+#   contents: read
 
-jobs: 
-    preview:
-        uses: ./.github/workflows/pipeline.yml
-        with: 
-            environment: dev
+# jobs: 
+#     terraform:
+#         uses: ./.github/workflows/pipeline.yml
+#         with: 
+#             environment: dev

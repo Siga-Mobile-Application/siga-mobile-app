@@ -6,6 +6,9 @@ on:
       environment:
         type: string
         required: true
+      expo_token:
+        type: string
+        required: true
 
 jobs:
   update:
@@ -13,9 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: write
     steps:
-      - name: Debug EXPO_TOKEN
-        run: echo "EXPO_TOKEN=${{ secrets.EXPO_TOKEN }}"
       - name: Check for EXPO_TOKEN
         run: |
           if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then

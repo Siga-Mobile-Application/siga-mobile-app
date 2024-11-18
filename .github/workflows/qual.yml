@@ -1,16 +1,16 @@
-name: "Qual Deploy"
+# name: "Qual Deploy"
 
-on:
-    push:
-        branches:
-            - 'qual'
+# on:
+#     push:
+#         branches:
+#             - 'qual'
 
-permissions:
-  id-token: write
-  contents: read
+# permissions:
+#   id-token: write
+#   contents: read
 
-jobs: 
-    terraform:
-        uses: ./.github/workflows/pipeline.yml
-        with: 
-            environment: qual
+# jobs: 
+#     terraform:
+#         uses: ./.github/workflows/pipeline.yml
+#         with: 
+#             environment: qual

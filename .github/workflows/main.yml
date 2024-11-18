@@ -1,16 +1,16 @@
-name: "Main Deploy"
+# name: "Main Deploy"
 
-on:
-    push:
-        branches:
-            - 'main'
+# on:
+#     push:
+#         branches:
+#             - 'main'
 
-permissions:
-  id-token: write
-  contents: read
+# permissions:
+#   id-token: write
+#   contents: read
 
-jobs: 
-    terraform:
-        uses: ./.github/workflows/pipeline.yml
-        with: 
-            environment: prod
+# jobs: 
+#     terraform:
+#         uses: ./.github/workflows/pipeline.yml
+#         with: 
+#             environment: prod
