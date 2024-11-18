@@ -19,9 +19,10 @@ interface StyledInputProps {
     helper?: string
     className?: string
     size?: "lg" | "sm" | "md" | "xl"
+    disable?: boolean
 }
 
-export default function StyledInput({ label, helper, placeholder, type, options, className, onChangeText, onClick, defaultValue, isRead, size }: StyledInputProps) {
+export default function StyledInput({ label, helper, placeholder, type, options, className, onChangeText, onClick, defaultValue, isRead, size, disable }: StyledInputProps) {
     const [showPass, setShowPass] = useState(false);
 
     return (
@@ -30,7 +31,7 @@ export default function StyledInput({ label, helper, placeholder, type, options,
                 {
                     ['text', 'password'].includes(type) ?
 
-                        <Input isReadOnly={isRead} style={[styles.input]} className={className} size={size}>
+                        <Input isDisabled={disable ? disable : false} isReadOnly={isRead} style={[styles.input]} className={className} size={size}>
                             <InputField
                                 size={size}
                                 type={type == 'password' && !showPass ? 'password' : 'text'}
