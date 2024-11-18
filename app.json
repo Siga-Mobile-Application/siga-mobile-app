@@ -4,7 +4,7 @@
     "slug": "siga-mobile-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo/Logo.png",
     "userInterfaceStyle": "light",
     "scheme": "siga-mobile-app",
     "newArchEnabled": true,
@@ -20,7 +20,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.carlos.fiori44.sigamobileapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -28,6 +29,11 @@
     "plugins": [
       "expo-secure-store",
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "53bdab80-fbd4-4277-b02e-98e7e729d5af"
+      }
+    }
   }
 }

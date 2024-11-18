@@ -40,7 +40,7 @@ export default function StyledInput({ label, helper, placeholder, type, options,
                             />
                             {
                                 type == 'password' &&
-                                <InputSlot className="mr-4" onPress={() => { setShowPass(!showPass); }}>
+                                <InputSlot style={{ marginRight: 8 }} onPress={() => { setShowPass(!showPass); }}>
                                     <InputIcon size={size} as={showPass ? EyeIcon : EyeOffIcon} />
                                 </InputSlot>
                             }
