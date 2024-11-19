@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     header: {
         flex: 1,
         justifyContent: 'flex-end',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     buttonsContainer: {
         flex: 1,
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     inputContainer: {
         flex: 1,
         width: '100%',
+        minHeight: '10%',
         justifyContent: 'center',
         rowGap: 20,
         paddingHorizontal: 30
