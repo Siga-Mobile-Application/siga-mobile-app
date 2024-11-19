@@ -106,7 +106,7 @@ export default function Schedule() {
                                     <Calendar day='Sexta-Feira' data={data.filter((item) => (item.dia == 'Sexta-Feira')).sort((a, b) => (a.horario.toString().localeCompare(b.horario.toString())))} />
                                 </View>
                                 <View>
-                                    <Calendar day='Sábado' data={data.filter((item) => (item.dia == 'Sábado')).sort((a, b) => (a.horario.toString().localeCompare(b.horario.toString())))} />
+                                    <Calendar day='Sábado' data={data.filter((item) => (item.dia == 'Sabado')).sort((a, b) => (a.horario.toString().localeCompare(b.horario.toString())))} />
                                 </View>
                             </ScrollView>
                 }
