@@ -33,6 +33,7 @@ export default function Login() {
 
         signIn(login.user, login.pass, keepLogin.includes(keepLoginOption[0]) ? true : false)
             .then((res) => { if (res) setMessage(res); })
+            .catch((e) => { console.log(e) })
             .finally(() => setIsLoading(false));
     };
 

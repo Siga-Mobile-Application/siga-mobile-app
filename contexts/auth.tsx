@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from '@react-native-community/netinfo';
 import * as LocalAuthentication from 'expo-local-authentication';
 import HelperContext from "./assistant";
+import { encrypt, bigIntToBytes } from "@/helper/auth";
 
 interface AuthProviderProps {
     children: ReactNode
@@ -31,14 +32,45 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const { showToast, closeToast } = useContext(HelperContext);
 
     async function signIn(login: string, pass: string, keepLogin?: boolean, auth?: string) {
-        let toastNumb;
+        const encoder = new TextEncoder();
+        const decoder = new TextDecoder();
+        let toastNumb: string;
 
         toastNumb = showToast({ title: 'Verificando...', action: 'info' });
 
         return await verifyConnection().then(async (con) => {
             if (con) {
                 let message = '';
-                const authorization = Buffer.from(`${login} | ${pass}`, 'utf-8').toString('base64');
+
+                const publicKeyEncoded = Buffer.from(process.env.EXPO_PUBLIC_DATA_PUBLIC_KEY ?? '', "base64").toString();
+
+                if (!publicKeyEncoded) {
+                    closeToast(toastNumb);
+                    return Promise.reject('Erro na autenticação');
+                }
+
+                const textByteArrays = encoder.encode(`${login} | ${pass}`);
+                
+                const textBigInt = BigInt('0x' + Array.from(textByteArrays).map(byte => byte.toString(16).padStart(2, '0')).join(''));
+
+                const messageBytes = new TextEncoder().encode(`${login} | ${pass}`);
+                let messageBigInt = 0n;
+                for (let i = 0; i < messageBytes.length; i++) {
+                    messageBigInt = (messageBigInt << 8n) | BigInt(messageBytes[i]);
+                }
+        
+                console.log("string in bigint1: ", textBigInt);
+                console.log("string in bigint2: ", messageBigInt);
+
+                console.log(decoder.decode(bigIntToBytes(messageBigInt)));
+
+                const cypherBigInt = encrypt(textBigInt, 65537, 121705369851007068365956881148578978046432335455959377948899956311479132679871345600530728887653869034448905790147482555325245754909002960066358357072674625542065650227533853388853319436834107166292812249011400992777320916113300918518809657446353892809993207777565144879586926102777949636092121362322175620143n);
+
+                const cypherText = bigIntToBytes(cypherBigInt);
+                
+                const authorization = Buffer.from(decoder.decode(cypherText)).toString("base64");
+
+                console.log(authorization);
 
                 await SecureStore.setItemAsync('authorization', authorization);
 
@@ -49,13 +81,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                     }
                     setUser(res.data);
                     router.replace('/home');
-                }).catch(async e => {
+                }).catch((e) => {
                     closeToast(toastNumb);
                     if (!e.status) {
+                        console.log(process.env.EXPO_PUBLIC_GET_DATA_API);
                         showToast({ title: 'Problema com o servidor', message: 'Tente novamente mais tarde', action: 'error' });
                     } else {
                         if (e.response.data.error.indexOf('Login e Senha')) {
-                            showToast({title: e.response.data.error, action: 'error'});
+                            showToast({ title: e.response.data.error, action: 'error' });
                             message = e.response.data.error;
                         } else {
                             showToast({ title: 'Erro', message: e.response.data.error, action: 'error' });
@@ -111,6 +144,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                                             }).catch(e => {
                                                 if (!e.status) {
                                                     showToast({ title: 'Problema com o servidor', message: 'Tente novamente mais tarde', action: 'error' });
+                                                    removeKeys();
                                                 } else {
                                                     showToast({ title: 'Erro', message: e.response.data.error, action: 'error' });
                                                 }
