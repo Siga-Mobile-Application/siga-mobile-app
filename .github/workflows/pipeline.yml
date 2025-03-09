@@ -5,13 +5,14 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
-  update:
-    name: EAS Update
+  setup-eas:
+    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
     steps:
       - name: Check for EXPO_TOKEN
         run: |
@@ -58,3 +59,9 @@ jobs:
         with:
           name: app-release
           path: ${{ github.workspace }}/app-release.apk
+
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get version
+        run: echo jq '.expo.version'
