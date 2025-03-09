@@ -61,4 +61,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: get version
-        run: echo jq '.expo.version'
+        run: jq '.expo.version'
