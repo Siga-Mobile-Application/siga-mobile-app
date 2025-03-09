@@ -60,5 +60,8 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: setup jq
+        run: sudo apt-get install jq
+
       - name: get version
-        run: jq '.expo.version'
+        run: "echo $(app.json) | $(jq '.expo.version')"
