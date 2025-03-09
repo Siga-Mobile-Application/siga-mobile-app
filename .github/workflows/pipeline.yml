@@ -62,4 +62,4 @@ jobs:
     steps:
       - name: get version
         shell: bash
-        run: jq -r '.expo.version' './app.json'
+        run: jq -r '.expo.version' 'app.json'
