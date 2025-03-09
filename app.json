@@ -2,7 +2,7 @@
   "expo": {
     "name": "siga-mobile-app",
     "slug": "siga-mobile-app",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo/app-icon.png",
     "userInterfaceStyle": "light",
@@ -17,7 +17,6 @@
       "supportsTablet": true
     },
     "android": {
-      "version": "1.0.0",
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo/app-icon.png"
       },
