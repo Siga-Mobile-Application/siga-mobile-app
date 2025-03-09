@@ -71,4 +71,4 @@ jobs:
 
       - name: display version
         shell: bash
-        run: echo "${{ steps.get_version.outputs }}"
+        run: echo "${{ steps.get_version.outputs.version }}"
