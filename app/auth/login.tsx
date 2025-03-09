@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { LinkText } from '@/components/ui/link';
+import { Link, LinkText } from '@/components/ui/link';
 import StyledInput from '@/components/styled-input';
 import StyledButton from '@/components/styled-button';
 import { router } from 'expo-router';
@@ -67,7 +67,7 @@ export default function Login() {
                                 isLoading={isLoading}
                                 textColor='white' />
 
-                            <LinkText disabled={isLoading} onPress={() => { router.navigate('auth/forgotPass'); }}>Esqueceu sua senha?</LinkText>
+                            <Link><LinkText disabled={isLoading} onPress={() => { router.navigate('auth/forgotPass'); }}>Esqueceu sua senha?</LinkText></Link>
                         </View>
                     </>
             }
