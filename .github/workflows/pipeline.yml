@@ -69,4 +69,4 @@ jobs:
           echo $VERSION >> $GITHUB_OUTPUT
 
       - name: display version
-        run: echo ${{steps.GITHUB_OUTPUT}}
+        run: echo ${{ steps.outputs }}
