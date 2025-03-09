@@ -9,12 +9,12 @@ export default function Configuration() {
     const [msg, setMsg] = useState('');
     const APPCURRENTVERSION = Application.nativeApplicationVersion;
 
-    function fetchAppVersion() {
-        if('2.32.19' == APPCURRENTVERSION) {
-            setMsg('Aplicativo na versão mais atual. \nVersão: ' + APPCURRENTVERSION);
-        } else {
-            setMsg('Versão mais atualizada encontrada');
-        }
+    function fetchAppVersion() {       
+        // if('2.4.32.19' === APPCURRENTVERSION) {
+        setMsg('Aplicativo na versão mais atual. \nVersão: ' + APPCURRENTVERSION);
+        // } else {
+        //     setMsg('Uma versão mais atualizada foi encontrada');
+        // }
 
         setLoad(false);
     }    

@@ -4,6 +4,7 @@ on:
   push:
     branches: 
       - main
+      - 'feat/**'
 
 jobs:
   update:
@@ -45,7 +46,8 @@ jobs:
           java-version: '17'
 
       - name: Create preview
-        uses: expo/expo-github-action/preview@v8
+        if: github.ref_name == 'main'
+        uses: expo/ex po-github-action/preview@v8
         with:
           command: eas update --auto
 

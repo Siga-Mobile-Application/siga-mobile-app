@@ -17,6 +17,7 @@
       "supportsTablet": true
     },
     "android": {
+      "version": "1.0.0",
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo/app-icon.png"
       },
