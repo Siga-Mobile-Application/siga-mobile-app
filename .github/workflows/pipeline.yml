@@ -60,6 +60,8 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
       - name: get version
         shell: bash
-        run: ls -a
+        run: jq -r '.expo.version' 'app.json'
