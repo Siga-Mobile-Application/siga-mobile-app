@@ -61,4 +61,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: get version
-        run: jq -r '.expo.version' 'app.json'
+        run: jq -r '.expo.version' './app.json'
