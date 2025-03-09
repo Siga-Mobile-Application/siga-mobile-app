@@ -64,4 +64,4 @@ jobs:
         run: sudo apt-get install jq
 
       - name: get version
-        run: "echo '$(<app.json)' | $(jq '.expo.version')"
+        run: "echo '$(<app.json)' | jq '.expo.version'"
