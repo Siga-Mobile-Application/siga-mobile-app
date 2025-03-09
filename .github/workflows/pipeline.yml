@@ -47,7 +47,7 @@ jobs:
 
       - name: Create preview
         if: github.ref_name == 'main'
-        uses: expo/ex po-github-action/preview@v8
+        uses: expo/expo-github-action/preview@v8
         with:
           command: eas update --auto
 
