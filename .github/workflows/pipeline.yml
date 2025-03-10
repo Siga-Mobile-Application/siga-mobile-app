@@ -55,20 +55,38 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: ${{ github.workspace }}/app-release.apk
+          path: ${{ github.workspace }}
 
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: get version
+      - name: Get version
         id: get_version
         shell: bash
         run: |
           VERSION="$(jq -r '.expo.version' 'app.json')"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo $VERSION
 
-      - name: display version
-        shell: bash
-        run: echo "${{ steps.get_version.outputs.version }}"
+      - name: Get app-release
+        uses: actions/download-artifact@v3
+        with:
+          name: app-release
+          path: ${{ github.workspace }}
+
+      - name: Create release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.get_version.outputs.version }}
+          release_name: Release ${{ steps.get_version.outputs.version }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: true
+          prerelease: false
