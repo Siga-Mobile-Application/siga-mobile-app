@@ -42,7 +42,7 @@ jobs:
           distribution: "temurin"
           java-version: "17"
 
-      - name: Create preview
+      - name: Create eas preview
         if: github.ref_name == 'main'
         uses: expo/expo-github-action/preview@v8
         with:
@@ -55,7 +55,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: ${{ github.workspace }}
 
   release:
     runs-on: ubuntu-latest
@@ -77,24 +76,27 @@ jobs:
         with:
           path: ${{ github.workspace }}
 
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          tag_name: v${{ steps.get_version.outputs.version }}
-          release_name: v${{ steps.get_version.outputs.version }}
-          body_path: release/release-notes.txt
-          draft: false
-          prerelease: false
+      # - name: Unpack app-release
+      #   run: unzip .zip -d destination_folder
 
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./release/release-notes.txt
-          asset_name: release-notes.txt
-          asset_content_type: text/plain
+      # - name: Create release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }}
+      #   with:
+      #     tag_name: v${{ steps.get_version.outputs.version }}
+      #     release_name: v${{ steps.get_version.outputs.version }}
+      #     body_path: release/release-notes.txt
+      #     draft: false
+      #     prerelease: false
+
+      # - name: Upload Release Asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./release/release-notes.txt
+      #     asset_name: release-notes.txt
+      #     asset_content_type:
