@@ -78,6 +78,7 @@ jobs:
 
       - name: Teste
         run: |
+          mkdir -p build/app-release
           echo "Local" >> build/app-release/app-release.apk
 
       - name: Create release
