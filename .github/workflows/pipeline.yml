@@ -8,7 +8,6 @@ permissions:
 
 jobs:
   deploy-eas:
-    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     steps:
       - name: Check for EXPO_TOKEN
@@ -55,10 +54,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release
+          path: ${{ github.workspace }}/app-release.apk
 
   release:
     runs-on: ubuntu-latest
-    # needs: [deploy-eas]
+    needs: [deploy-eas]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -74,30 +74,29 @@ jobs:
       - name: Get app-release
         uses: actions/download-artifact@v4
         with:
-          name: app-release
+          path: build
 
       - name: Unpack app-release
-        run: ls -a
-        # run: unzip .zip -d destination_folder
+        run: unzip build/app-release
 
-      # - name: Create release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ github.token }}
-      #   with:
-      #     tag_name: v${{ steps.get_version.outputs.version }}
-      #     release_name: v${{ steps.get_version.outputs.version }}
-      #     body_path: release/release-notes.txt
-      #     draft: false
-      #     prerelease: false
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          release_name: v${{ steps.get_version.outputs.version }}
+          body_path: release/release-notes.txt
+          draft: false
+          prerelease: false
 
-      # - name: Upload Release Asset
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ./release/release-notes.txt
-      #     asset_name: release-notes.txt
-      #     asset_content_type:
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/app-release/app-release.apk
+          asset_name: app-release.apk
+          asset_content_type: application/apk
