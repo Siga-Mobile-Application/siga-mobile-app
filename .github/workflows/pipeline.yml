@@ -92,11 +92,12 @@ jobs:
           body_path: release/release-notes.txt
           draft: false
           prerelease: false
+          owner: carlos.fiori@hotmail.com
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: build/app-release/app-release.apk
