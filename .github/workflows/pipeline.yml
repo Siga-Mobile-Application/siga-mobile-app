@@ -1,17 +1,15 @@
 name: Android App APK Build
 
-on: 
-  push:
-    branches: 
-      - main
+on: push
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
-  update:
-    name: EAS Update
+  deploy-eas:
+    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
     steps:
       - name: Check for EXPO_TOKEN
         run: |
@@ -37,23 +35,65 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-  
+
       - name: Setup Java 17
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: "temurin"
+          java-version: "17"
 
-      - name: Create preview
+      - name: Create eas preview
         uses: expo/expo-github-action/preview@v8
         with:
           command: eas update --auto
 
       - name: Build Android app
         run: eas build --platform android --profile preview --local --output ${{ github.workspace }}/app-release.apk
-      
+
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release
           path: ${{ github.workspace }}/app-release.apk
+
+  release:
+    runs-on: ubuntu-latest
+    needs: [deploy-eas]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get version
+        id: get_version
+        shell: bash
+        run: |
+          VERSION="$(jq -r '.expo.version' 'app.json')"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo $VERSION
+
+      - name: Get app-release
+        uses: actions/download-artifact@v4
+        with:
+          path: build
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          release_name: v${{ steps.get_version.outputs.version }}
+          body_path: release/release-notes.txt
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/app-release/app-release.apk
+          asset_name: siga-app.apk
+          asset_content_type: application/apk

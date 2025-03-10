@@ -6,7 +6,7 @@ export default function Loading() {
     return (
         <View style={{ alignSelf: 'center' }}>
             <Image source={require('@/assets/logo/Logo1.png')} size="2xl" resizeMode='center' alt="Logo Siga" />
-            <Spinner size='large' style={{ marginTop: 20 }} color="#0e7be9" />
+            <Spinner size='large' color="#0e7be9" />
         </View>
     )
 }

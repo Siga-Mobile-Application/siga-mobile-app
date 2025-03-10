@@ -1,0 +1,3 @@
+This is the first release of the project.
+It contains the main functionalities of the project SIGA Mobile App.
+Which includes grades, self profile information, academic card, history and class calendar.
