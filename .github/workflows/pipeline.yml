@@ -8,7 +8,6 @@ permissions:
 
 jobs:
   deploy-eas:
-    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     steps:
       - name: Check for EXPO_TOKEN
@@ -49,7 +48,11 @@ jobs:
           command: eas update --auto
 
       - name: Build Android app
+        if: github.ref_name == 'main'
         run: eas build --platform android --profile preview --local --output ${{ github.workspace }}/app-release.apk
+
+      - name: Build Teste
+        run: echo "Teste" >> ${{ github.workspace }}/app-release.apk
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
