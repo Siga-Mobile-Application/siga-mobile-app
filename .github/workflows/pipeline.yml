@@ -58,7 +58,7 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
-    needs: [deploy-eas]
+    # needs: [deploy-eas]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -75,6 +75,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: build
+
+      - name: Teste
+        run: |
+          echo "Local" >> build/app-release/app-release.apk
 
       - name: Create release
         id: create_release
