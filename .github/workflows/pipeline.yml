@@ -77,6 +77,7 @@ jobs:
           path: ${{ github.workspace }}
 
       - name: Create release
+        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -89,3 +90,17 @@ jobs:
             - Second Change
           draft: true
           prerelease: false
+
+      - name: Gerar arquivo de exemplo
+        run: |
+          echo "Conteúdo do arquivo de release" > release-notes.txt
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release-notes.txt
+          asset_name: release-notes.txt
+          asset_content_type: text/plain
