@@ -81,7 +81,7 @@ jobs:
           path: build
 
       - name: Unpack app-release
-        run: ls -a
+        run: ls build/
 
       # - name: Create release
       #   id: create_release
