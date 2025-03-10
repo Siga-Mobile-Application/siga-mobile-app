@@ -76,8 +76,9 @@ jobs:
         with:
           path: ${{ github.workspace }}
 
-      # - name: Unpack app-release
-      #   run: unzip .zip -d destination_folder
+      - name: Unpack app-release
+        run: ls -a
+        # run: unzip .zip -d destination_folder
 
       # - name: Create release
       #   id: create_release
