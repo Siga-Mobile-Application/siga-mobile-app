@@ -1,9 +1,6 @@
 name: Android App APK Build
 
-on:
-  push:
-    tags:
-      - "v*"
+on: push
 
 permissions:
   contents: write
