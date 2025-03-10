@@ -8,6 +8,7 @@ permissions:
 
 jobs:
   deploy-eas:
+    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     steps:
       - name: Check for EXPO_TOKEN
@@ -42,13 +43,11 @@ jobs:
           java-version: "17"
 
       - name: Create eas preview
-        if: github.ref_name == 'main'
         uses: expo/expo-github-action/preview@v8
         with:
           command: eas update --auto
 
       - name: Build Android app
-        if: github.ref_name == 'main'
         run: eas build --platform android --profile preview --local --output ${{ github.workspace }}/app-release.apk
 
       - name: Build Teste
@@ -80,9 +79,6 @@ jobs:
         with:
           path: build
 
-      # - name: Unpack app-release
-      #   run: ls build/app-release/
-
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -102,5 +98,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: build/app-release/app-release.apk
-          asset_name: app-release.apk
+          asset_name: siga-app.apk
           asset_content_type: application/apk
