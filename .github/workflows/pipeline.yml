@@ -1,9 +1,12 @@
 name: Android App APK Build
 
-on: push
+on:
+  push:
+    tags:
+      - "v*"
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
 
 jobs:
@@ -77,12 +80,12 @@ jobs:
           path: ${{ github.workspace }}
 
       - name: Create release
-        uses: actions/create-release@v1
+        uses: octokit/action-create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.get_version.outputs.version }}
-          release_name: Release ${{ steps.get_version.outputs.version }}
+          release_name: ${{ steps.get_version.outputs.version }}
           body: |
             Changes in this Release
             - First Change
