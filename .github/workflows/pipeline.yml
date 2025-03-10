@@ -82,7 +82,7 @@ jobs:
       - name: Create release
         uses: octokit/action-create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           tag_name: ${{ steps.get_version.outputs.version }}
           release_name: ${{ steps.get_version.outputs.version }}
