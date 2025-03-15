@@ -1,3 +1,2 @@
-This is the first release of the project.
-It contains the main functionalities of the project SIGA Mobile App.
-Which includes grades, self profile information, academic card, history and class calendar.
+This version add an notification icon to the 'Versão' tab
+The name of the tab 'Configuração' changed to 'Versão'
