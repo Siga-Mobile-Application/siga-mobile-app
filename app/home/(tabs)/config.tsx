@@ -1,44 +1,31 @@
 import Loading from "@/components/loading";
 import { useContext, useEffect, useState } from "react";
 import { View } from "react-native";
-import * as Application from 'expo-application';
 import StyledText from "@/components/styled-text";
 import { apiAppVersion } from "@/helper/axios";
 import { Link, LinkText } from "@/components/ui/link";
 import { useIsFocused } from "@react-navigation/native";
 import HelperContext from "@/contexts/assistant";
 import { VStack } from "@/components/ui/vstack";
+import VersionContext from "@/contexts/version";
 
 export default function Configuration() {
     const [load, setLoad] = useState(true);
     const [msg, setMsg] = useState('');
 
+    const { fetchVersion, currentVersion } = useContext(VersionContext);
     const { reload } = useContext(HelperContext);
     const isFocused = useIsFocused();
-
-    const APPCURRENTVERSION = Application.nativeApplicationVersion;
 
     async function fetchAppVersion() {
         setLoad(true);
 
-        await apiAppVersion.get("latest").then((data) => {
-            const responseURL: string = data.request.responseURL;
-
-            if (!responseURL.endsWith("releases")) {
-                const latestVersion = responseURL.substring(responseURL.lastIndexOf('v') + 1);
-
-                if (latestVersion == APPCURRENTVERSION) {
-                    setMsg('Aplicativo na versão mais atual');
-                } else {
-                    setMsg('Uma versão mais atualizada foi encontrada');
-                }
-            } else {
-                setMsg('Nenhuma versão encontrada');
-            }
+        fetchVersion().then((response) => {
+            setMsg(response);
         }).catch((e) => {
-            setMsg("Erro ao verificar a versão");
+            setMsg('Erro ao verificar a versão');
         }).finally(() => {
-            setLoad(false);
+            setLoad(false)
         });
     }
 
@@ -72,7 +59,7 @@ export default function Configuration() {
                 </View>
 
                 <View style={{}}>
-                    <StyledText fontWeight="bold" size="lg" text={`Versão atual: ${APPCURRENTVERSION}`} />
+                    <StyledText fontWeight="bold" size="lg" text={`Versão atual: ${currentVersion}`} />
                 </View>
             </VStack>
     )

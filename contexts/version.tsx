@@ -8,17 +8,17 @@ interface VersionProviderProps {
 }
 
 interface VersionProvider {
-    currentVersion: string | null
-    fetchVersion: (version: string) => Promise<string>
+    currentVersion: string
+    fetchVersion: () => Promise<string>
 }
 
 const VersionContext = createContext<VersionProvider>({} as VersionProvider);
 
 export const VersionProvider: React.FC<VersionProviderProps> = ({ children }) => {
-    const currentVersion = Application.nativeApplicationVersion;
+    const currentVersion = Application.nativeApplicationVersion || '';
 
-    async function fetchVersion(version: string): Promise<string> {
-        await apiAppVersion.get("latest").then((data) => {
+    async function fetchVersion(): Promise<string> {
+        return await apiAppVersion.get("latest").then((data) => {
             const responseURL: string = data.request.responseURL;
 
             if (!responseURL.endsWith("releases")) {
@@ -33,10 +33,8 @@ export const VersionProvider: React.FC<VersionProviderProps> = ({ children }) =>
                 return 'Nenuma versão encontrada';
             }
         }).catch((e) => {
-            return Promise.reject("Erro ao verificar a versão");
+            return 'Erro ao verificar a versão';
         });
-
-        return '';
     }
 
     return (
