@@ -2,16 +2,36 @@ import ButtonReload from '@/components/reload-button';
 import Logout from '@/components/profile-tab/logout';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { router, Tabs } from 'expo-router';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '@/contexts/auth';
 import { Badge, BadgeIcon, BadgeText } from '@/components/ui/badge';
 import { GlobeIcon } from '@/components/ui/icon';
+import { VStack } from '@/components/ui/vstack';
+import VersionContext from '@/contexts/version';
 
 export default function Layout() {
   const { isConnected, user } = useContext(AuthContext);
+  const { fetchVersion } = useContext(VersionContext);
+
+
+  const [badgeConfig, setBadgeConfig] = useState(false);
+
+  async function setBadge() {
+    fetchVersion().then((response) => {
+      if (response.includes("atualizada")) {
+        setBadgeConfig(true);
+      } else {
+        setBadgeConfig(false);
+      }
+    }).catch(() => {
+      setBadgeConfig(false);
+    });
+  }
 
   useEffect(() => {
-    if (!user.nome) { return router.replace('../../auth/login') }
+    if (!user.nome) { return router.replace('../../auth/login') };
+
+    setBadge();
   }, []);
 
   return (
@@ -40,7 +60,7 @@ export default function Layout() {
       <Tabs.Screen
         name="grades"
         options={{
-          title: 'Notas Parciais',
+          title: 'Notas',
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="book" color={color} />,
         }}
       />
@@ -62,8 +82,21 @@ export default function Layout() {
       <Tabs.Screen
         name='config'
         options={{
-          title: 'Configurações',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="gear" color={color} />,
+          title: 'Versão',
+          tabBarIcon: ({ color }) =>
+            <VStack>
+              {
+                badgeConfig ?
+                  <Badge
+                    className="z-10 self-end bg-red-600 rounded-full -mb-3.5 -mr-3.5"
+                    variant="solid">
+                    <BadgeText className="text-white">!</BadgeText>
+                  </Badge>
+                  :
+                  <></>
+              }
+              <FontAwesome size={28} name="gear" color={color} />
+            </VStack>
         }}
       />
     </Tabs>

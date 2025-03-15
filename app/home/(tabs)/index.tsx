@@ -149,7 +149,7 @@ export default function Home() {
                                         <VStack className='my-6 p-6' style={{ justifyContent: 'space-evenly', flexGrow: 2 }}>
                                             <Text size='2xl' bold className='text-justify'>
                                                 Para saber mais detalhes técnicos sobre o desenvolvimento do aplicativo 💻
-                                                Acesse o reposistório oficial clicando
+                                                Acesse o repositório oficial clicando
                                                 <Link className='px-5' href='https://github.com/Siga-Mobile-Application'>
                                                     <LinkText size='2xl' bold>aqui</LinkText>
                                                 </Link>
